@@ -1,0 +1,1 @@
+Simple simulations of social interactions using cellular automata.

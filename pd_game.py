@@ -45,9 +45,9 @@ def init_mid(l):
 def payoff_array(t_pay, ca):
     """Returns a tuple with two members. The first member is an array of each cell followed by its Moore neighbors. The second member is an array storing the payoff_total for each cell."""
     nbrs = Neighbors(ca, 8).list_neighbors()
-    l = len(ca)
+    s = ca.shape
     t = tuple(payoff_total(*row, t_pay) for row in nbrs)
-    return nbrs, np.array(t).reshape(l, l) 
+    return nbrs, np.array(t).reshape(s)
 
 def payoff_total(t_pay, focal, *nbrs):
     '''Return total payoff for a focal cell due to pairwise interactions with neighbors.'''

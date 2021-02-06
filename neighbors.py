@@ -1,10 +1,9 @@
 import numpy as np
 
-# Lines for testing:
-# lat = np.arange(9).reshape(3,3)
-# from neighbors import Neighbors
-# teste = Neighbors(lat, 4)
-# teste.list_neighbors()
+"""
+Line for testing:
+from neighbors import Neighbors; teste = Neighbors(lat, 4); teste.list_neighbors()
+"""
 
 class Neighbors:
     def __init__(self, array, num_neighbors):

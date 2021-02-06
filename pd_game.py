@@ -17,7 +17,13 @@ class PD:
         nbrs, pa = payoff_array(t, ca)
         arr = Neighbors(pa,8).list_neighbors()
         b = np.array(tuple(pick_one(row) for row in arr))
-        return nbrs[b].reshape(l, l)
+        return nbrs[b].reshape(l,l)
+
+    def run_once_with_hist(self):
+        """Run run_once() but keep history."""
+        ca0, ca1 = self.init, self.run_once()
+        gen = lower_zip(ca0,ca1)  # zip their rows
+        return np.array(tuple(gen))
 
 #
 # Choose initial array
@@ -40,7 +46,7 @@ def init_mid(l):
     return arr
 
 #
-# Run one time step
+# Funcs used to run one time step
 #
 def payoff_array(t_pay, ca):
     """Returns a tuple with two members. The first member is an array of each cell followed by its Moore neighbors. The second member is an array storing the payoff_total for each cell."""
@@ -68,3 +74,13 @@ def pick_one(array_1d):
         c = np.random.choice(i_mxs)
         return i_all == c
     return b
+
+
+#
+# Helper functions
+#
+def lower_zip(ca0, ca1):
+    """Returns a generator by zipping the rows of ca0 and ca1."""
+    it = (tuple(zip(x,y)) for x,y in zip(ca0,ca1))  # zip rows
+    return it
+

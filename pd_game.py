@@ -1,5 +1,6 @@
 import numpy as np
 from neighbors import Neighbors
+from helper_funcs import lower_zip
 
 # Cmds for testing:
 # from pd_game import PD; teste = PD(10, 1.4, 0.5)
@@ -74,13 +75,3 @@ def pick_one(array_1d):
         c = np.random.choice(i_mxs)
         return i_all == c
     return b
-
-
-#
-# Helper functions
-#
-def lower_zip(ca0, ca1):
-    """Returns a generator by zipping the rows of ca0 and ca1."""
-    it = (tuple(zip(x,y)) for x,y in zip(ca0,ca1))  # zip rows
-    return it
-

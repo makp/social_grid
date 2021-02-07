@@ -10,31 +10,32 @@ class PD:
     def __init__(self, l, t, p):
         self.length = l         # CA length
         self.t_pay = t          # temptation for defecting
-        self.init = choose_init(p, l)
-        
-    def run_once(self):
+        self.prob = p           # initial prob of cooperating
+
+    def create_init(self):
+        """Create the initial array."""
+        if 0<self.prob<1:
+            return init_random(self.prob,self.length)
+        elif self.prob == 1:
+            return init_mid(self.length)
+
+    def run_once(self,ca):
         """Select the strategy with the highest payoff in the Moore neighborhood."""
-        ca, l, t = self.init, self.length, self.t_pay
+        t, l = self.t_pay, self.length
         nbrs, pa = payoff_array(t, ca)
         arr = Neighbors(pa,8).list_neighbors()
         b = np.array(tuple(pick_one(row) for row in arr))
         return nbrs[b].reshape(l,l)
 
-    def run_once_with_hist(self):
-        """Run run_once() but keep history."""
-        ca0, ca1 = self.init, self.run_once()
-        gen = lower_zip(ca0,ca1)  # zip their rows
+    def run_once_with_hist(self,ca):
+        """Run run_once() but keep history by storing the previous and the current values within tuples."""
+        ca_next = self.run_once(ca)
+        gen = lower_zip(ca,ca_next)  # zip their rows
         return np.array(tuple(gen))
 
 #
 # Choose initial array
 #
-def choose_init(p,l):
-    if 0<p<1:
-        return init_random(p,l)
-    elif p == 0:
-        return init_mid(l)
-
 def init_random(p,l):
     """Generate a random array with 0s (defectors) and 1s (coorperators) with probability '1-prob' and 'prob,' respectively."""
     return np.random.choice(2, size=(l,l), p=[1-p, p])

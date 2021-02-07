@@ -33,6 +33,20 @@ class PD:
         gen = lower_zip(ca,ca_next)  # zip their rows
         return np.array(tuple(gen))
 
+    def run_multi(self, ca, n, hist=None):
+        """Run the game for 'n' time steps and return the resulting arrays with 'ca' as the initial array. The optional keyword argument specifies whether to keep history or not."""
+        if hist == 'True':
+            func = self.run_once_with_hist
+        else:
+            func = self.run_once
+        count, out = 0, [ca]
+        while count < n:
+            ca_next = func(out[-1])
+            out.append(ca_next)
+            count += 1
+        return out
+
+
 #
 # Choose initial array
 #

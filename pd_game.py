@@ -48,7 +48,7 @@ class PD:
 
 
 #
-# Choose initial array
+# Initial array
 #
 def init_random(p,l):
     """Generate a random array with 0s (defectors) and 1s (coorperators) with probability '1-prob' and 'prob,' respectively."""
@@ -62,10 +62,10 @@ def init_mid(l):
     return arr
 
 #
-# Funcs used to run one time step
+# Functions used to run one time step
 #
 def payoff_array(t_pay, ca):
-    """Returns a tuple with two members. The first member is an array of each cell followed by its Moore neighbors. The second member is an array storing the payoff_total for each cell."""
+    """Returns a tuple with two members. The first member is an array containing every cell of 'ca' followed by its Moore neighbors. The second member of the tuple is an array storing the payoff_total for each cell."""
     nbrs = Neighbors(ca, 8).list_neighbors()
     s = ca.shape
     t = tuple(payoff_total(*row, t_pay) for row in nbrs)

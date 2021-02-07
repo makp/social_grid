@@ -3,9 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 
 
-# sim = PD(100,1.4, 0.5)
-# ca_zero = sim.init
-# ca_one = sim.run_once()
+#class Visualize:
 
 def rgb_convert(arr, dic):
     """Replace color names with RGB values in dictionary dic, and apply the resulting dictionary to each element of a 2D-array."""
@@ -18,12 +16,15 @@ def rgb_convert(arr, dic):
         arr_new[arr==key] = val
     return arr_new
 
+def show_single(arr,dic,ax=None):
+    """Plot array."""
+    ax = ax or plt.gca()
+    arr_new = rgb_convert(arr, dic)
+    out = ax.imshow(arr_new)
+    return out
 
+# fig, axs = plt.subplots(nrows=1, ncols=5)
+# fig.set_title("")
 
-# Five horizontal images
-fig, axs = plt.subplots(nrows=1, ncols=5, subplot_kw={'xticks': [], 'yticks': []})
-fig.set_title("Five time steps")
-
-
-plt.tight_layout()
-plt.show()
+# plt.tight_layout()
+# plt.show()

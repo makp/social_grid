@@ -3,7 +3,22 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 
 
-#class Visualize:
+class Visualize:
+    def __init__(self, dic):
+        self.dic = dic
+
+    def show_single(self,arr,ax):
+        """Show array."""
+        arr_new = rgb_convert(arr, self.dic)
+        out = ax.imshow(arr_new)
+        return out
+
+    def show_multiple(self,arrs,axs):
+        out = []
+        for ax,arr in zip(axs, arrs):
+            out.append(self.show_single(arr,ax))
+        return out
+
 
 def rgb_convert(arr, dic):
     """Replace color names with RGB values according to dictionary 'dic', and apply the resulting dictionary to each element of a 2D-array."""
@@ -16,18 +31,6 @@ def rgb_convert(arr, dic):
         arr_new[arr==key] = val
     return arr_new
 
-def show_single(arr,dic,ax=None):
-    """Show array."""
-    arr_new = rgb_convert(arr, dic)
-    ax = ax or plt.gca()
-    out = ax.imshow(arr_new)
-    return out
-
-def show_multiple(arrs,dic,axs):
-    out = []
-    for ax,arr in zip(axs, arrs):
-        out.append(show_single(arr,dic,ax))
-    return out
 
 
 # fig, axs = plt.subplots(nrows=1, ncols=5)

@@ -36,6 +36,14 @@ class PD:
             count += 1
         return out
 
+cdic = {1:'blue',
+        0:'red'}
+
+cdic_hist = {(0,0): 'red',
+             (1,1): 'blue',
+             (0,1): 'green',
+             (1,0): 'yellow'}
+
 #
 # Initial array
 #

@@ -27,6 +27,7 @@ class PD:
         elif self.prob == 1:
             return init_mid(self.length)
 
+    # TODO: Combine the following two functions where n is an optional argument.
     def run_once(self,ca):
         """Select the strategy with the highest payoff in the Moore neighborhood."""
         t, l = self.t_pay, self.length

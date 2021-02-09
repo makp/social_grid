@@ -5,7 +5,7 @@ from matplotlib import colors
 
 class Visualize:
     def __init__(self, dic):
-        self.dic = dic
+        self.dic = dic          # TODO: Change attribute
 
     def show_single(self,arr,ax):
         """Show array."""
@@ -13,6 +13,7 @@ class Visualize:
         out = ax.imshow(arr_new)
         return out
 
+    # TODO: Combine the following two functions
     def show_multiple(self,arrs,axs):
         out = []
         for ax,arr in zip(axs, arrs):
@@ -26,7 +27,7 @@ class Visualize:
             out.append(ax.imshow(arr))
         return out
 
-
+# TODO: Combine the following two functions
 def rgb_convert(arr, dic):
     """Replace color names with RGB values according to dictionary 'dic', and apply the resulting dictionary to each element of a 2D-array."""
     keys = dic.keys()

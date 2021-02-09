@@ -19,6 +19,13 @@ class Visualize:
             out.append(self.show_single(arr,ax))
         return out
 
+    def show_multiple_with_hist(self,arrs,axs,dic):
+        arrs_new = rgb_convert_with_hist(arrs,dic)
+        out = []
+        for ax,arr in zip(axs, arrs_new):
+            out.append(ax.imshow(arr))
+        return out
+
 
 def rgb_convert(arr, dic):
     """Replace color names with RGB values according to dictionary 'dic', and apply the resulting dictionary to each element of a 2D-array."""
@@ -30,19 +37,27 @@ def rgb_convert(arr, dic):
         arr_new[arr==key] = val
     return arr_new
 
-def rgb_covert_with_hist(arrs, dic):
+def rgb_convert_with_hist(larrs, dic):
     """"""
-    # To test whether history is involved, I could check the type.
-    arrs_paired = arrs          # FIXME: create function to pair arrays an arrs
+    gen = pair_larrs(larrs)
     keys = np.array(tuple(dic.keys()))
     vals = (colors.to_rgb(val) for val in dic.values())
-    n_rows, n_colums = arrs[0].shape
-    arr_new = np.empty((n_rows, n_colums, 3))
-    gen = np.array(tuple(lower_zip(arrs[0],arrs[1])))
-    for key,val in zip(keys,vals):
-        b = np.logical_and(arrs[0]==key[0], arrs[1]==key[1])
-        arr_new[b] = val
-    return arr_new
+    out = []
+    nrs, ncs = larrs[0].shape
+    arr_new = np.empty((nrs,ncs, 3))
+    for g in gen:               # iterate through pairs of arrays
+        for key,val in zip(keys,vals):
+            b = np.logical_and(g[0]==key[0], g[1]==key[1])
+            arr_new[b] = val
+        out.append(arr_new)
+    return out
+
+def pair_larrs(larrs):
+    """Returns a generator that pairs the list of arrays 'larrs.'"""
+    rg = range(len(larrs)-1)
+    gen = ([larrs[i], larrs[i+1]] for i in rg)
+    return gen
+
 
 # fig, axs = plt.subplots(nrows=1, ncols=5)
 # fig.set_title("")

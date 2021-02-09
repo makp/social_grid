@@ -3,7 +3,7 @@ from neighbors import Neighbors
 from helper_funcs import lower_zip
 
 # Cmds for testing:
-# from pd_game import PD; teste = PD(10, 1.4, 0.5)
+# from pd_game import PD; pd = PD(10, 1.4, 0.5)
 
 
 class PD:
@@ -27,25 +27,15 @@ class PD:
         b = np.array(tuple(pick_one(row) for row in arr))
         return nbrs[b].reshape(l,l)
 
-    # FIXME: For the two funcs below, make sure the elements of the array are tuples --- otherwise I won't be able to use a dictionary to assign them colors
-    # def run_once_with_hist(self,ca):
-    #     """Run run_once() but keep history by storing the previous and the current values within tuples."""
-    #     ca_next = self.run_once(ca)
-    #     gen = lower_zip(ca,ca_next)  # zip their rows
-    #     return np.array(tuple(gen))
-
-    # def run_multi(self, ca, n, hist=None):
-    #     """Run the game for 'n' time steps and return the resulting arrays with 'ca' as the initial array. The optional keyword argument specifies whether to keep history or not."""
-    #     if hist == 'True':
-    #         func = self.run_once_with_hist
-    #     else:
-    #         func = self.run_once
-    #     count, out = 0, [ca]
-    #     while count < n:
-    #         ca_next = func(out[-1])
-    #         out.append(ca_next)
-    #         count += 1
-    #     return out
+    def run_multi(self, ca, n):
+        """Run the game for 'n' time steps and return the resulting arrays with 'ca' as the first one."""
+        func = self.run_once
+        count, out = 0, [ca]
+        while count < n:
+            ca_next = func(out[-1])
+            out.append(ca_next)
+            count += 1
+        return out
 
 
 #

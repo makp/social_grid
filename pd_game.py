@@ -28,15 +28,13 @@ class PD:
         return nbrs[b].reshape(l,l)
 
     def run_multi(self, ca, n):
-        """Run the game for 'n' time steps and return the resulting arrays with 'ca' as the first one."""
-        func = self.run_once
+        """Run the game for 'n' timesteps and return the resulting arrays as a list."""
         count, out = 0, [ca]
         while count < n:
-            ca_next = func(out[-1])
+            ca_next = self.run_once(out[-1])
             out.append(ca_next)
             count += 1
         return out
-
 
 #
 # Initial array

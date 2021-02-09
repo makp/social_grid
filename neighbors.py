@@ -20,8 +20,6 @@ class Neighbors:
             result = np.vstack((result, g.ravel()))
         return result.T
 
-dic = {4: neighNeumann, 8: neighMoore}
-
 # Four neighbors
 neighNeumann = {(+1, 0),        # N (immediately above)
                 (-1, 0),        # S
@@ -35,7 +33,7 @@ neighMoore = neighNeumann.union({
     (-1, +1),                   # 
     (+1, +1)})                  #
 
-
+dic = {4: neighNeumann, 8: neighMoore}
 
 def rotate_right(array, steps):
     a = array[-steps:]

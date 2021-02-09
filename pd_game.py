@@ -27,24 +27,15 @@ class PD:
         elif self.prob == 1:
             return init_mid(self.length)
 
-    # TODO: Combine the following two functions where n is an optional argument.
-    def run_once(self,ca):
-        """Select the strategy with the highest payoff in the Moore neighborhood."""
-        t, l = self.t_pay, self.length
-        nbrs, pa = payoff_array(t, ca)
-        arr = Neighbors(pa,8).list_neighbors()
-        b = np.array(tuple(pick_one(row) for row in arr))
-        return nbrs[b].reshape(l,l)
-
-    def run_multi(self, ca, n):
+    def run(self, ca, n=1):
         """Run the game for 'n' timesteps and return the resulting arrays as a list."""
+        t, l = self.t_pay, self.length
         count, out = 0, [ca]
         while count < n:
-            ca_next = self.run_once(out[-1])
+            ca_next = run_once(out[-1], t, l)
             out.append(ca_next)
             count += 1
         return out
-
 
 #
 # Initial array
@@ -63,6 +54,13 @@ def init_mid(l):
 #
 # Functions used to run one time step
 #
+def run_once(ca, t_pay, l):
+    """Select the strategy with the highest payoff in the Moore neighborhood."""
+    nbrs, pa = payoff_array(t_pay, ca)
+    arr = Neighbors(pa,8).list_neighbors()
+    b = np.array(tuple(pick_one(row) for row in arr))
+    return nbrs[b].reshape(l,l)
+
 def payoff_array(t_pay, ca):
     """Returns a tuple with two members. The first member is an array containing every cell of 'ca' followed by its Moore neighbors. The second member of the tuple is an array storing the payoff_total for each cell."""
     nbrs = Neighbors(ca, 8).list_neighbors()
@@ -89,3 +87,5 @@ def pick_one(array_1d):
         c = np.random.choice(i_mxs)
         return i_all == c
     return b
+
+

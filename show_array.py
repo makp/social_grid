@@ -3,9 +3,18 @@ import matplotlib.pyplot as plt
 from matplotlib import colors
 
 
-class Visualize:
-    def __init__(self, dic):
-        self.dic = dic          # TODO: Change attribute
+class Show:
+    def __init__(self):
+        pass
+
+    def show(self,lst, axs, dic, hist=False):
+        """Assign matplotib AxesImage of the arrays in the list 'lst' using dictionary 'dic' to axes 'axs.'"""
+        out = []
+        for arr,ax in zip(lst,axs):
+            arr_new = rgb_convert(arr,dic,hist)
+            out.append(ax.imshow(arr_new))
+        return out
+
 
     def show_single(self,arr,ax):
         """Show array."""

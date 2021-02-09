@@ -24,8 +24,8 @@ def rgb_convert(arr, dic):
     """Replace color names with RGB values according to dictionary 'dic', and apply the resulting dictionary to each element of a 2D-array."""
     keys = dic.keys()
     vals = (colors.to_rgb(val) for val in dic.values())
-    n_rows, n_colums = arr.shape
-    arr_new = np.empty((n_rows, n_colums, 3))  # add extra array to store RGB color
+    n_rows, n_cols = arr.shape
+    arr_new = np.empty((n_rows, n_cols, 3))  # add extra array to store RGB color
     for key,val in zip(keys,vals):
         arr_new[arr==key] = val
     return arr_new

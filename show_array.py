@@ -4,28 +4,37 @@ from matplotlib import colors
 
 
 class Show:
-    def __init__(self):
-        pass
-     # TODO: Combine show_multi and show_multiple_with_hist
-    def show_multi(self,lst,axs,dic,hist=False):
-        """Assign matplotib AxesImage of the arrays in the list 'lst' to axes 'axs.'"""
-        out = []
-        for arr,ax in zip(lst,axs):
-            out.append(self.show_single(arr,ax,dic))
-        return out
+    def __init__(self, cdic, cdic_hist):
+        self.cdic = cdic
+        self.cdic_hist = cdic_hist
 
-    def show_single(self,arr,ax,dic):
-        """Show single array."""
-        arr_new = rgb_convert(arr, dic)
-        out = ax.imshow(arr_new)
-        return out
+    def show(self,c,axs):
+        if type(c)==np.ndarray:  # single CA
+            return show_single(c,ax,self.dic)
+        elif type(c)==list:     # multiple CA
+            return show_multi(lst,axs,self.dic_hist)
 
-    def show_multiple_with_hist(self,arrs,axs,dic):
-        arrs_new = rgb_convert_with_hist(arrs,dic)
+    def show_with_hist(self,arrs,axs):
+        arrs_new = rgb_convert_with_hist(arrs,self.dic_hist)
         out = []
         for ax,arr in zip(axs, arrs_new):
             out.append(ax.imshow(arr))
         return out
+
+
+def show_single(arr,ax,dic):
+    """Show single array."""
+    arr_new = rgb_convert(arr, dic)
+    out = ax.imshow(arr_new)
+    return out
+
+def show_multi(lst,axs,dic):
+    """Assign matplotib AxesImage of the arrays in the list 'lst' to axes 'axs.'"""
+    out = []
+    for arr,ax in zip(lst,axs):
+        out.append(self.show_single(arr,ax,dic))
+    return out
+
 
 # TODO: Combine the following two functions
 def rgb_convert(arr, dic):

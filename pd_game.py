@@ -28,14 +28,14 @@ class PD:
             return init_mid(self.length)
 
     def run(self, ca, n=1):
-        """Run the game for 'n' timesteps and return the resulting arrays as a list."""
+        """Run the game for 'n' timesteps and return the resulting arrays as a tuple."""
         t, l = self.t_pay, self.length
         count, out = 0, [ca]
         while count < n:
             ca_next = run_once(out[-1], t, l)
             out.append(ca_next)
             count += 1
-        return out
+        return tuple(out)
 
 #
 # Initial array

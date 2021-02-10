@@ -8,50 +8,43 @@ class Show:
         self.cdic = rgb_convert_dic(cdic)
         self.cdic_hist = rgb_convert_dic(cdic_hist)
 
-    def show(self,c,axs):
+    def show(self,c,a,hist=False):
         if type(c)==np.ndarray:  # single CA
-            return show_single(c,ax,self.dic)
+            c_new = rgb_convert_array(c, self.cdic)
+            return a.imshow(c_new)
         elif type(c)==tuple:     # multiple CA
-            return show_multi(lst,axs,self.dic)
+            if hist:
+                dic = self.cdic_hist
+            else:
+                dic = self.cdic
+            c_new = rgb_convert_multi(c, dic, hist)
+            gen = (ax.imshow(arr) for ax,arr in zip(a, c_new))
+            return tuple(gen)
 
-    def show_with_hist(self,arrs,axs):
-        arrs_new = rgb_convert_with_hist(arrs,self.dic_hist)
-        out = []
-        for ax,arr in zip(axs, arrs_new):
-            out.append(ax.imshow(arr))
-        return out
+def rgb_convert_multi(t_arrs, dic, hist=False):
+    if hist:
+        return rgb_convert_with_hist(t_arrs,dic)
+    else:
+        gen = (rgb_convert_array(arr,dic) for arr in t_arrs)
+        return tuple(gen)
 
-
-def rgb_convert_with_hist(larrs, dic):
-    """"""
-    gen = pair_arrays(larrs)
+def rgb_convert_with_hist(t_arrs, dic):
+    """Group arrays in t_arrs into pairs, and then transform each pair into an array with RGB values according to dictionary 'dic.'"""
+    gen = pair_arrays(t_arrs)
+    arr_new = np.empty((*t_arrs[0].shape, 3))
     out = []
-    nrs, ncs = larrs[0].shape
-    arr_new = np.empty((nrs,ncs, 3))
     for g in gen:               # iterate through pairs of arrays
-        for key,val in zip(keys,vals):
-            b = np.logical_and(g[0]==key[0], g[1]==key[1])
-            arr_new[b] = val
+        for key in dic.keys():
+            arr_bool = np.logical_and(g[0]==key[0], g[1]==key[1])
+            arr_new[arr_bool] = dic[key]
         out.append(arr_new)
-    return out
+    return tuple(out)
 
-
-def pair_arrays(lst):
-    """Returns a generator that pairs the list of arrays 'lst.'"""
-    rg = range(len(lst)-1)
-    gen = ([lst[i], lst[i+1]] for i in rg)
+def pair_arrays(t_arrs):
+    """Returns a generator that pairs consecutive arrays in the tuple 't_arrs.'"""
+    rg = range(len(t_arrs)-1)
+    gen = ((t_arrs[i], t_arrs[i+1]) for i in rg)
     return gen
-
-def show_multi(t_arrs,axs,dic):
-    """Assign matplotib AxesImage representing the arrays in the tuple 't' to axes 'axs.'"""
-    gen = (show_single(arr,ax,dic) for arr,ax in zip(t_arrs,axs))
-    return tuple(gen)
-
-def show_single(arr,ax,dic):
-    """Assign matplotib AxesImage representing the 2D-array using dictionary 'dic' to 'ax.'"""
-    arr_new = rgb_convert_array(arr, dic)
-    out = ax.imshow(arr_new)
-    return out
 
 def rgb_convert_array(arr, dic):
     """Returns an array that replaces the values of the original 2D-array 'arr' with RGB colors according to dictionary 'dic.'"""

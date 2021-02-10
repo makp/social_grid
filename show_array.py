@@ -11,8 +11,8 @@ class Show:
     def show(self,c,axs):
         if type(c)==np.ndarray:  # single CA
             return show_single(c,ax,self.dic)
-        elif type(c)==list:     # multiple CA
-            return show_multi(lst,axs,self.dic_hist)
+        elif type(c)==tuple:     # multiple CA
+            return show_multi(lst,axs,self.dic)
 
     def show_with_hist(self,arrs,axs):
         arrs_new = rgb_convert_with_hist(arrs,self.dic_hist)
@@ -21,13 +21,6 @@ class Show:
             out.append(ax.imshow(arr))
         return out
 
-
-def show_multi(lst,axs,dic):
-    """Assign matplotib AxesImage of the arrays in the list 'lst' to axes 'axs.'"""
-    out = []
-    for arr,ax in zip(lst,axs):
-        out.append(self.show_single(arr,ax,dic))
-    return out
 
 def rgb_convert_with_hist(larrs, dic):
     """"""
@@ -48,6 +41,11 @@ def pair_arrays(lst):
     rg = range(len(lst)-1)
     gen = ([lst[i], lst[i+1]] for i in rg)
     return gen
+
+def show_multi(t_arrs,axs,dic):
+    """Assign matplotib AxesImage representing the arrays in the tuple 't' to axes 'axs.'"""
+    gen = (show_single(arr,ax,dic) for arr,ax in zip(t_arrs,axs))
+    return tuple(gen)
 
 def show_single(arr,ax,dic):
     """Assign matplotib AxesImage representing the 2D-array using dictionary 'dic' to 'ax.'"""

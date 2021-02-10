@@ -40,7 +40,7 @@ def rgb_convert(arr, dic):
 
 def rgb_convert_with_hist(larrs, dic):
     """"""
-    gen = pair_larrs(larrs)
+    gen = pair_arrays(larrs)
     keys = np.array(tuple(dic.keys()))
     vals = (colors.to_rgb(val) for val in dic.values())
     out = []
@@ -53,10 +53,11 @@ def rgb_convert_with_hist(larrs, dic):
         out.append(arr_new)
     return out
 
-def pair_larrs(larrs):
-    """Returns a generator that pairs the list of arrays 'larrs.'"""
-    rg = range(len(larrs)-1)
-    gen = ([larrs[i], larrs[i+1]] for i in rg)
+
+def pair_arrays(lst):
+    """Returns a generator that pairs the list of arrays 'lst.'"""
+    rg = range(len(lst)-1)
+    gen = ([lst[i], lst[i+1]] for i in rg)
     return gen
 
 

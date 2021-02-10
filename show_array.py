@@ -5,8 +5,8 @@ from matplotlib import colors
 
 class Show:
     def __init__(self, cdic, cdic_hist):
-        self.cdic = cdic
-        self.cdic_hist = cdic_hist
+        self.cdic = rgb_convert_dic(cdic)
+        self.cdic_hist = rgb_convert_dic(cdic_hist)
 
     def show(self,c,axs):
         if type(c)==np.ndarray:  # single CA
@@ -69,6 +69,12 @@ def pair_arrays(lst):
     gen = ([lst[i], lst[i+1]] for i in rg)
     return gen
 
+def rgb_convert_dic(dic):
+    """Return a new version of dictionary 'dic' in which dic.values() are RGB colors intead of color names"""
+    keys = dic.keys()
+    vals_new = (colors.to_rgb(val) for val in dic.values())
+    dic_new = {key: val for key,val in zip(keys, vals_new)}
+    return dic_new
 
 # fig, axs = plt.subplots(nrows=1, ncols=5)
 

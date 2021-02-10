@@ -8,28 +8,21 @@ class Show:
         self.cdic = rgb_convert_dic(cdic)
         self.cdic_hist = rgb_convert_dic(cdic_hist)
 
-    def show(self,c,a,hist=False):
-        if type(c)==np.ndarray:  # single CA
+    def show(self,ca,a,hist=False):
+        if type(ca)==np.ndarray:  # single CA
             c_new = rgb_convert_array(c, self.cdic)
             return a.imshow(c_new)
-        elif type(c)==tuple:     # multiple CA
+        elif type(ca)==tuple:     # multiple CA
             if hist:
-                dic = self.cdic_hist
+                c_new = rgb_convert_with_hist(ca,self.cdic_hist)
             else:
-                dic = self.cdic
-            c_new = rgb_convert_multi(c, dic, hist)
+                c_new = tuple(rgb_convert_array(arr,self.cdic) for arr in ca)
             gen = (ax.imshow(arr) for ax,arr in zip(a, c_new))
             return tuple(gen)
 
-def rgb_convert_multi(t_arrs, dic, hist=False):
-    if hist:
-        return rgb_convert_with_hist(t_arrs,dic)
-    else:
-        gen = (rgb_convert_array(arr,dic) for arr in t_arrs)
-        return tuple(gen)
 
 def rgb_convert_with_hist(t_arrs, dic):
-    """Group arrays in t_arrs into pairs, and then transform each pair into an array with RGB values according to dictionary 'dic.'"""
+    """Group consecutive arrays from t_arrs into pairs, and then transform each pair into an array with RGB values according to dictionary 'dic.'"""
     gen = pair_arrays(t_arrs)
     arr_new = np.empty((*t_arrs[0].shape, 3))
     out = []

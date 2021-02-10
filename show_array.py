@@ -6,27 +6,18 @@ from matplotlib import colors
 class Show:
     def __init__(self):
         pass
-
-    def show(self,lst, axs, dic, hist=False):
-        """Assign matplotib AxesImage of the arrays in the list 'lst' using dictionary 'dic' to axes 'axs.'"""
+     # TODO: Combine show_multi and show_multiple_with_hist
+    def show_multi(self,lst,axs,dic,hist=False):
+        """Assign matplotib AxesImage of the arrays in the list 'lst' to axes 'axs.'"""
         out = []
         for arr,ax in zip(lst,axs):
-            arr_new = rgb_convert(arr,dic,hist)
-            out.append(ax.imshow(arr_new))
+            out.append(self.show_single(arr,ax,dic))
         return out
 
-
-    def show_single(self,arr,ax):
-        """Show array."""
-        arr_new = rgb_convert(arr, self.dic)
+    def show_single(self,arr,ax,dic):
+        """Show single array."""
+        arr_new = rgb_convert(arr, dic)
         out = ax.imshow(arr_new)
-        return out
-
-    # TODO: Combine the following two functions
-    def show_multiple(self,arrs,axs):
-        out = []
-        for ax,arr in zip(axs, arrs):
-            out.append(self.show_single(arr,ax))
         return out
 
     def show_multiple_with_hist(self,arrs,axs,dic):
@@ -70,7 +61,7 @@ def pair_larrs(larrs):
 
 
 # fig, axs = plt.subplots(nrows=1, ncols=5)
-# fig.set_title("")
 
+# fig.set_title("")
 # plt.tight_layout()
 # plt.show()

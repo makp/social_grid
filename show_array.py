@@ -22,12 +22,6 @@ class Show:
         return out
 
 
-def show_single(arr,ax,dic):
-    """Show single array."""
-    arr_new = rgb_convert(arr, dic)
-    out = ax.imshow(arr_new)
-    return out
-
 def show_multi(lst,axs,dic):
     """Assign matplotib AxesImage of the arrays in the list 'lst' to axes 'axs.'"""
     out = []
@@ -35,23 +29,9 @@ def show_multi(lst,axs,dic):
         out.append(self.show_single(arr,ax,dic))
     return out
 
-
-# TODO: Combine the following two functions
-def rgb_convert(arr, dic):
-    """Replace color names with RGB values according to dictionary 'dic', and apply the resulting dictionary to each element of a 2D-array."""
-    keys = dic.keys()
-    vals = (colors.to_rgb(val) for val in dic.values())
-    n_rows, n_cols = arr.shape
-    arr_new = np.empty((n_rows, n_cols, 3))  # add extra array to store RGB color
-    for key,val in zip(keys,vals):
-        arr_new[arr==key] = val
-    return arr_new
-
 def rgb_convert_with_hist(larrs, dic):
     """"""
     gen = pair_arrays(larrs)
-    keys = np.array(tuple(dic.keys()))
-    vals = (colors.to_rgb(val) for val in dic.values())
     out = []
     nrs, ncs = larrs[0].shape
     arr_new = np.empty((nrs,ncs, 3))
@@ -68,6 +48,19 @@ def pair_arrays(lst):
     rg = range(len(lst)-1)
     gen = ([lst[i], lst[i+1]] for i in rg)
     return gen
+
+def show_single(arr,ax,dic):
+    """Assign matplotib AxesImage representing the 2D-array using dictionary 'dic' to 'ax.'"""
+    arr_new = rgb_convert_array(arr, dic)
+    out = ax.imshow(arr_new)
+    return out
+
+def rgb_convert_array(arr, dic):
+    """Returns an array that replaces the values of the original 2D-array 'arr' with RGB colors according to dictionary 'dic.'"""
+    arr_new = np.empty((*arr.shape, 3))  # add extra array to store RGB color
+    for key in dic.keys():
+        arr_new[arr==key] = dic[key]
+    return arr_new
 
 def rgb_convert_dic(dic):
     """Return a new version of dictionary 'dic' in which dic.values() are RGB colors intead of color names"""

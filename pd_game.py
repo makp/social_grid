@@ -65,7 +65,7 @@ def payoff_array(t_pay, ca):
     """Returns a tuple with two members. The first member is an array containing every cell of 'ca' followed by its Moore neighbors. The second member of the tuple is an array storing the payoff_total for each cell."""
     nbrs = Neighbors(8).list_neighbors(ca)
     s = ca.shape
-    t = tuple(payoff_total(*row, t_pay) for row in nbrs)
+    t = tuple(payoff_total(t_pay,*row) for row in nbrs)
     return nbrs, np.array(t).reshape(s)
 
 def payoff_total(t_pay, focal, *nbrs):

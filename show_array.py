@@ -21,17 +21,16 @@ class Show:
         gen = (ax.imshow(arr) for ax,arr in zip(axs,t))
         return tuple(gen)
 
-# FIXME The function below is returning the same array
 def rgb_convert_with_hist(t_arrs, dic):
     """Group consecutive arrays from t_arrs into pairs, and then transform each pair into an array with RGB values according to dictionary 'dic.'"""
     gen = pair_arrays(t_arrs)
-    arr_new = np.empty((*t_arrs[0].shape, 3))
     out = []
+    arr_new = np.empty((*t_arrs[0].shape, 3))
     for g in gen:               # iterate through pairs of arrays
         for key in dic.keys():
             arr_bool = np.logical_and(g[0]==key[0], g[1]==key[1])
             arr_new[arr_bool] = dic[key]
-        out.append(arr_new)
+        out.append(arr_new.copy())
     return tuple(out)
 
 def rgb_convert_sans_hist(t_arrs, dic):

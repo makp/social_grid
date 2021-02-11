@@ -18,7 +18,7 @@ class Show:
             t = rgb_convert_with_hist(t_arrs,self.cdic_hist)
         else:
             t = rgb_convert_sans_hist(t_arrs,self.cdic)
-        gen = (ax.imshow(arr) for ax,arr in zip(axs,t))
+        gen = (ax.imshow(arr) for ax,arr in zip(axs.flatten(),t))
         return tuple(gen)
 
 def rgb_convert_with_hist(t_arrs, dic):

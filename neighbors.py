@@ -1,23 +1,16 @@
 import numpy as np
 
-"""
-Line for testing:
-from neighbors import Neighbors; teste = Neighbors(lat, 4); teste.list_neighbors()
-"""
-
 class Neighbors:
-    def __init__(self, array, num_neighbors):
-        self.array = array
+    def __init__(self, num_neighbors):
         self.num_neighbors = num_neighbors
 
-    def list_neighbors(self):
+    def list_neighbors(self, arr):
         """Returns an array in which each row lists the value of every cell followed by the value of its neighbors based on the chosen type of neighborhood (von Neumann and Moore)."""
         nbr = dic[self.num_neighbors]  # neighborhood type
-        ca = self.array                # the given CA
-        gen = (rotateCA(ca, *t) for t in nbr)
-        result = ca.ravel()
+        gen = (rotateCA(arr, *t) for t in nbr)
+        result = arr.ravel()
         for g in gen:
-            result = np.vstack((result, g.ravel()))
+            result = np.vstack((result.copy(), g.ravel()))
         return result.T
 
 # Four neighbors

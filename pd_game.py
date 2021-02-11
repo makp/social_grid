@@ -57,13 +57,13 @@ def init_mid(l):
 def run_once(ca, t_pay, l):
     """Select the strategy with the highest payoff in the Moore neighborhood."""
     nbrs, pa = payoff_array(t_pay, ca)
-    arr = Neighbors(pa,8).list_neighbors()
+    arr = Neighbors(8).list_neighbors(pa)
     b = np.array(tuple(pick_one(row) for row in arr))
     return nbrs[b].reshape(l,l)
 
 def payoff_array(t_pay, ca):
     """Returns a tuple with two members. The first member is an array containing every cell of 'ca' followed by its Moore neighbors. The second member of the tuple is an array storing the payoff_total for each cell."""
-    nbrs = Neighbors(ca, 8).list_neighbors()
+    nbrs = Neighbors(8).list_neighbors(ca)
     s = ca.shape
     t = tuple(payoff_total(*row, t_pay) for row in nbrs)
     return nbrs, np.array(t).reshape(s)

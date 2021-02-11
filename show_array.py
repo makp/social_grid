@@ -8,18 +8,18 @@ class Show:
         self.cdic = rgb_convert_dic(cdic)
         self.cdic_hist = rgb_convert_dic(cdic_hist)
 
-    def show(self,ca,a,hist=False):
-        if type(ca)==np.ndarray:  # single CA
-            c_new = rgb_convert_array(c, self.cdic)
-            return a.imshow(c_new)
-        elif type(ca)==tuple:     # multiple CA
-            if hist:
-                c_new = rgb_convert_with_hist(ca,self.cdic_hist)
-            else:
-                c_new = tuple(rgb_convert_array(arr,self.cdic) for arr in ca)
-            gen = (ax.imshow(arr) for ax,arr in zip(a, c_new))
-            return tuple(gen)
+    def show_array(self,arr,ax):
+        """"""
+        return ax.imshow(rgb_convert_array(arr, self.cdic))
 
+    def show_tuple(self,t_arrs,axs,hist=False):
+        """"""
+        if hist:
+            t = rgb_convert_with_hist(t_arrs,self.cdic_hist)
+        else:
+            t = rgb_convert_sans_hist(t_arrs,self.cdic)
+        gen = (ax.imshow(arr) for ax,arr in zip(axs,t))
+        return tuple(gen)
 
 def rgb_convert_with_hist(t_arrs, dic):
     """Group consecutive arrays from t_arrs into pairs, and then transform each pair into an array with RGB values according to dictionary 'dic.'"""
@@ -32,6 +32,10 @@ def rgb_convert_with_hist(t_arrs, dic):
             arr_new[arr_bool] = dic[key]
         out.append(arr_new)
     return tuple(out)
+
+def rgb_convert_sans_hist(t_arrs, dic):
+    gen = (rgb_convert_array(arr,dic) for arr in t_arrs)
+    return tuple(gen)
 
 def pair_arrays(t_arrs):
     """Returns a generator that pairs consecutive arrays in the tuple 't_arrs.'"""

@@ -14,17 +14,17 @@ class Neighbors:
         return result.T
 
 # Four neighbors
-neighNeumann = {(+1, 0),        # N (immediately above)
+neighNeumann = ((+1, 0),        # N (immediately above)
                 (-1, 0),        # S
                 (0, -1),        # E
-                (0, +1)}        # W
+                (0, +1))        # W
 
 # Eight neighbors
-neighMoore = neighNeumann.union({
-    (+1, -1),                   # 
-    (-1, -1),                   # 
-    (-1, +1),                   # 
-    (+1, +1)})                  #
+neighMoore = (*neighNeumann,
+              (+1, -1),         # NE
+              (-1, -1),         # SE
+              (-1, +1),         # SW
+              (+1, +1))         # NW
 
 dic = {4: neighNeumann, 8: neighMoore}
 

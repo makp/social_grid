@@ -39,8 +39,9 @@ def rgb_convert_sans_hist(t_arrs, dic):
 
 def pair_arrays(t_arrs):
     """Returns a generator that pairs consecutive arrays in the tuple 't_arrs.'"""
-    rg = range(len(t_arrs)-1)
-    gen = ((t_arrs[i], t_arrs[i+1]) for i in rg)
+    t_new = (t_arrs[0], *t_arrs)
+    rg = range(len(t_new)-1)
+    gen = ((t_new[i], t_new[i+1]) for i in rg)
     return gen
 
 def rgb_convert_array(arr, dic):

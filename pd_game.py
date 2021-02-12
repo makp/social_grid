@@ -32,7 +32,7 @@ class PD:
         t, l = self.t_pay, self.length
         count, out = 0, [ca]
         while count < n:
-            ca_next = run_once(out[-1], t, l)
+            ca_next = run_once(out[-1], t)
             out.append(ca_next.copy())
             count += 1
         return tuple(out)
@@ -54,12 +54,13 @@ def init_mid(l):
 #
 # Functions used to run one time step
 #
-def run_once(ca, t_pay, l):
+def run_once(ca, t_pay):
     """Select the strategy with the highest payoff in the Moore neighborhood."""
     nbrs, pa = payoff_array(t_pay, ca)
+    s = ca.shape
     arr = Neighbors(8).list_neighbors(pa)
     b = np.array(tuple(pick_one(row) for row in arr))
-    return nbrs[b].reshape(l,l)
+    return nbrs[b].reshape(*s)
 
 def payoff_array(t_pay, ca):
     """Returns a tuple with two members. The first member is an array containing every cell of 'ca' followed by its Moore neighbors. The second member of the tuple is an array storing the payoff_cell for each cell."""

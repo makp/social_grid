@@ -58,7 +58,7 @@ def run_once(ca, t_pay):
     """Select the strategy with the highest payoff in the Moore neighborhood."""
     nbrs, pa = payoff_array(ca, t_pay)
     s = ca.shape
-    arr = Neighbors(8).list_neighbors(pa)
+    arr = Neighbors(8).list_neighbors(pa)  # (ca.size, 9)
     b = np.array(tuple(pick_one(row) for row in arr))
     return nbrs[b].reshape(*s)
 
@@ -80,7 +80,7 @@ def payoff_cell(t_pay, focal, *nbrs):
 
 def pick_one(array_1d):
     """Returns True for only of the max element found in the 1D array. If array contains multiple entries equal to the maximum value, choose one of these entries randomly."""
-    i_all = np.array(tuple(range(array_1d.size)))  # indexes
+    i_all = np.arange(array_1d.size)  # indexes
     m = max(array_1d)                              # max value
     bool_array = array_1d == m
     i_mxs = i_all[bool_array]   # indexes for max value entries

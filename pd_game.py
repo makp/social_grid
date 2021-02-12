@@ -68,7 +68,7 @@ def payoff_array(t_pay, ca):
     t = tuple(payoff_total(t_pay,*row) for row in nbrs)
     return nbrs, np.array(t).reshape(s)
 
-def payoff_total(t_pay, focal, *nbrs):
+def payoff_total(t_pay, focal, *nbrs):  # TODO: change func name to payoff_cell
     '''Return total payoff for a focal cell due to pairwise interactions with neighbors.'''
     total = sum((focal, *nbrs))
     if focal == 1:              # cooperators

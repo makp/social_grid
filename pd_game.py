@@ -81,10 +81,13 @@ def payoff_cell(t_pay, focal, *nbrs):
 def pick_one(array_1d):
     """Returns True for only of the max element found in the 1D array. If array contains multiple entries equal to the maximum value, choose one of these entries randomly."""
     i_all = np.arange(array_1d.size)  # indexes
-    m = max(array_1d)                              # max value
+    m = max(array_1d)                 # max value
     bool_array = array_1d == m
     i_mxs = i_all[bool_array]   # indexes for max value entries
     if len(i_mxs) > 1:          # >1 max value
-        c = np.random.choice(i_mxs)   # c = np.sort(i_mxs)[0]
+        if i_mxs[0]==0:         # select focal cell if in i_mxs
+            c = 0
+        else:
+            c = np.random.choice(i_mxs)
         return i_all == c
     return bool_array

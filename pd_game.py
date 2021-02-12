@@ -33,7 +33,7 @@ class PD:
         count, out = 0, [ca]
         while count < n:
             ca_next = run_once(out[-1], t, l)
-            out.append(ca_next)
+            out.append(ca_next.copy())
             count += 1
         return tuple(out)
 

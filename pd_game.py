@@ -81,11 +81,9 @@ def pick_one(array_1d):
     """Returns True for only of the max element found in the 1D array. If array contains multiple entries equal to the maximum value, choose one of these entries randomly."""
     i_all = np.array(tuple(range(array_1d.size)))  # indexes
     m = max(array_1d)                              # max value
-    b = array_1d == m
-    i_mxs = i_all[b]            # indexes for max value entries
-    if len(i_mxs) > 1:          # more than one entry
-        c = np.random.choice(i_mxs)
+    bool_array = array_1d == m
+    i_mxs = i_all[bool_array]   # indexes for max value entries
+    if len(i_mxs) > 1:          # >1 max value
+        c = np.random.choice(i_mxs)   # c = np.sort(i_mxs)[0]
         return i_all == c
-    return b
-
-
+    return bool_array

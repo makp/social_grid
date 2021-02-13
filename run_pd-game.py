@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 from pd_game import PD
 from show_array import Show
 
-pd = PD(2)                      # temptation
+pd = PD(1.85)                      # temptation
 vis = Show(pd.cdic, pd.cdic_hist)  # convert dics to RGB
 
-ca0 = pd.create_init(101,1)          # only one cheater in the middle
+ca0 = pd.create_init(51,1)          # only one cheater in the middle
 
 n_steps = 12
 series = pd.run(ca0,n_steps, 'coop_bias')

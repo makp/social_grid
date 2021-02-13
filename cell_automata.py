@@ -5,13 +5,11 @@ class CA:
         self.num_nbrs = num_nbrs
 
     def list_nbrs(self, arr):
-        """Returns an array in which each row lists the value of every cell followed by the value of its neighbors based on the chosen type of neighborhood (von Neumann and Moore)."""
+        """Returns an array in which each cell is replaced by a 1D array containing the cell in question followed by its neighbors based on the chosen type of neighborhood (von Neumann and Moore)."""
         nbr = dic[self.num_nbrs]  # nbr type
-        gen = (rotateCA(arr, *t) for t in nbr)
-        result = arr.ravel()
-        for g in gen:
-            result = np.vstack((result.copy(), g.ravel()))
-        return result.T
+        arrs = np.array(tuple(rotateCA(arr, *t) for t in nbr))
+        out = np.dstack((arr,*arrs))
+        return out
 
 # Four neighbors
 neighNeumann = ((+1, 0),        # N (immediately above)

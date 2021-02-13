@@ -11,6 +11,13 @@ class CA:
         out = np.dstack((arr,*arrs))
         return out
 
+    def map_nbrs(arr, func):
+        """Returns a generator that maps the function 'func' to each cell in 'arr' and all of its neighbors."""
+        arr_nbrs = self.num_nbrs.list_nbrs(arr)
+        arr_new = np.empty(arr.shape)
+        gen = (func(*xs) for row in arr_nbrs for xs in row)
+        return gen
+
 # Four neighbors
 neighNeumann = ((+1, 0),        # N (immediately above)
                 (-1, 0),        # S

@@ -1,12 +1,12 @@
 import numpy as np
 
-class Neighbors:
-    def __init__(self, num_neighbors):
-        self.num_neighbors = num_neighbors
+class CA:
+    def __init__(self, num_nbrs):
+        self.num_nbrs = num_nbrs
 
-    def list_neighbors(self, arr):
+    def list_nbrs(self, arr):
         """Returns an array in which each row lists the value of every cell followed by the value of its neighbors based on the chosen type of neighborhood (von Neumann and Moore)."""
-        nbr = dic[self.num_neighbors]  # neighborhood type
+        nbr = dic[self.num_nbrs]  # nbr type
         gen = (rotateCA(arr, *t) for t in nbr)
         result = arr.ravel()
         for g in gen:
@@ -33,9 +33,9 @@ def rotate_right(array, steps):
     b = array[:-steps]
     return np.concatenate((a,b))
 
-def rotateCA(array, i, j):
-    """For a given 2D array, rotate rows i steps and their elements j steps."""
-    arr = rotate_right(array, i)                  # rotate rows
+def rotateCA(arr, i, j):
+    """Return 'arr' after rotating its rows i steps and the members of each row by j steps."""
+    arr = rotate_right(arr, i)                    # rotate rows
     t = tuple(rotate_right(row,j) for row in arr)  # rotate elements
     return np.array(t)
 

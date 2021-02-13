@@ -1,12 +1,7 @@
 import numpy as np
-from neighbors import Neighbors
-from helper_funcs import lower_zip
+from cell_automata import CA
 
-# Cmds for testing:
-# from pd_game import PD; pd = PD(10, 1.4, 0.5)
-
-
-class PD:
+class PD(CA):
     cdic = {1:'blue',
             0:'red'}
 
@@ -15,27 +10,26 @@ class PD:
                  (0,1): 'green',
                  (1,0): 'yellow'}
 
-    def __init__(self, l, t, p):
-        self.length = l         # CA length
+    def __init__(self, t):
+        super().__init__(8)     # Use Moore nbr
         self.t_pay = t          # temptation for defecting
-        self.prob = p           # initial prob of cooperating
 
-    def create_init(self):
+    def create_init(self, l, prob):
         """Create the initial array."""
-        if 0<self.prob<1:
-            return init_random(self.prob,self.length)
-        elif self.prob == 1:
-            return init_mid(self.length)
+        if 0<prob<1:
+            return init_random(prob,l)
+        elif prob == 1:
+            return init_mid(l)
 
-    def run(self, ca, n=1):
-        """Run the game for 'n' timesteps and return the resulting arrays as a tuple."""
-        t, l = self.t_pay, self.length
-        count, out = 0, [ca]
-        while count < n:
-            ca_next = run_once(out[-1], t)
-            out.append(ca_next.copy())
-            count += 1
-        return tuple(out)
+    # def run(self, ca, n=1):
+    #     """Run the game for 'n' timesteps and return the resulting arrays as a tuple."""
+    #     t, l = self.t_pay, self.length
+    #     count, out = 0, [ca]
+    #     while count < n:
+    #         ca_next = run_once(out[-1], t)
+    #         out.append(ca_next.copy())
+    #         count += 1
+    #     return tuple(out)
 
 #
 # Initial array

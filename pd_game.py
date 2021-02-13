@@ -31,6 +31,9 @@ class PD(CA):
     #         count += 1
     #     return tuple(out)
 
+
+cell = CA(8)
+
 #
 # Initial array
 #
@@ -48,20 +51,49 @@ def init_mid(l):
 #
 # Functions used to run one time step
 #
-def run_once(ca, t_pay):
-    """Select the strategy with the highest payoff in the Moore neighborhood."""
-    nbrs, pa = payoff_array(ca, t_pay)
-    s = ca.shape
-    arr = Neighbors(8).list_neighbors(pa)  # (ca.size, 9)
-    b = np.array(tuple(pick_one(row) for row in arr))
-    return nbrs[b].reshape(*s)
+def run_once(ca, t_pay, m):
+    pa = payoff_array(ca,t_pay)
+    pa_nbrs = cell.list_nbrs(pa)
+    ca_nbrs = cell.list_nbrs(ca)
+    z = zip(pa_nbrs, ca_nbrs)
+    gen = (pick_strat(a1,a2, m) for r1,r2 in z for a1,a2 in zip(r1,r2))
+    out = np.array(tuple(gen)).reshape(ca.shape)
+    return out
+
+def pick_strat(arr_pay, arr_strat, method):
+    b = max_bool(arr_pay)
+    if sum(b) == 1:
+        return arr_strat[b][0]
+    elif sum(b) > 1:            # more than one max val found
+        return dic_funcs[method](arr_strat, b)
+
+def pick_lazy(arr_strat, b):
+    if b[0]:                    # if focal cell is one of the maxs...
+        return arr_strat[0]     # stick to it
+    else:                       # Otherwise...
+        a = arr_strat[b]
+        return np.random.choice(a)  # pick one of the strats randomly
+
+def pick_coop_bias(arr_strat, b):
+    a = arr_strat[b]
+    if 1 in a:
+        return 1
+    else:
+        return 0
+
+dic_funcs = {'lazy': pick_lazy, 'coop_bias': pick_coop_bias}
+
+def max_bool(array_1d):
+    """Return an boolean 1D-array with 'True' for the maximum value and 'False' otherwise."""
+    m = max(array_1d)
+    array_bool = array_1d == m
+    return array_bool
 
 def payoff_array(ca, t_pay):
     """Returns a tuple with two members. The first member is an array containing every cell of 'ca' followed by its Moore neighbors. The second member of the tuple is an array storing the payoff for each cell (payoff_cell)."""
-    nbrs = Neighbors(8).list_neighbors(ca)
-    s = ca.shape
-    t = tuple(payoff_cell(t_pay,*row) for row in nbrs)
-    return nbrs, np.array(t).reshape(s)
+    func = lambda *xs: payoff_cell(t_pay, *xs)
+    return cell.map_nbrs(ca, func)
+
 
 def payoff_cell(t_pay, focal, *nbrs):
     '''Return total payoff for a focal cell due to pairwise interactions with neighbors.'''
@@ -72,16 +104,4 @@ def payoff_cell(t_pay, focal, *nbrs):
         pay = t_pay*total
     return pay
 
-def pick_one(array_1d):
-    """Returns True for only of the max element found in the 1D array. If array contains multiple entries equal to the maximum value, choose one of these entries randomly."""
-    i_all = np.arange(array_1d.size)  # indexes
-    m = max(array_1d)                 # max value
-    bool_array = array_1d == m
-    i_mxs = i_all[bool_array]   # indexes for max value entries
-    if len(i_mxs) > 1:          # >1 max value
-        if i_mxs[0]==0:         # select focal cell if in i_mxs
-            c = 0
-        else:
-            c = np.random.choice(i_mxs)
-        return i_all == c
-    return bool_array
+

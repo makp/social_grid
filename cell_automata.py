@@ -12,11 +12,11 @@ class CA:
         return out
 
     def map_nbrs(self, arr, func):
-        """Returns a generator that maps the function 'func' to each cell in 'arr' and all of its neighbors."""
-        arr_nbrs = self.num_nbrs.list_nbrs(arr)
-        arr_new = np.empty(arr.shape)
+        """Returns a 2D-array in which each cell is the result applying the function 'func' to each cell in 'arr' and all of its neighbors."""
+        arr_nbrs = self.list_nbrs(arr)
         gen = (func(*xs) for row in arr_nbrs for xs in row)
-        return gen
+        out = np.array(tuple(gen)).reshape(arr.shape)
+        return out
 
 # Four neighbors
 neighNeumann = ((+1, 0),        # N (immediately above)

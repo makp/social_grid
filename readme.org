@@ -5,8 +5,8 @@ Simple simulations of social interactions using Cellular Automata.
 * Prisoner's Dilemma on a grid
 The following grid simulates how the cheater strategy (red) spreads from the center in a world of cooperators (blue):
 
-#+CAPTION: The color yellow is used to represent cells that have recently turned into cheaters, and green to represent cells that have recently turned into cooperators.
 [[./figures/pd-with-coop-bias.png]]
+The color yellow is used to represent cells that have recently turned into cheaters, and green to represent cells that have recently turned into cooperators.
 
 The cells in the simulation above possess a bias towards cooperation when deciding how to select a strategy every time step. The resulting pattern might change if the selection strategy of the cells differ.
 

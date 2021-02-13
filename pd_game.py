@@ -21,15 +21,15 @@ class PD(CA):
         elif prob == 1:
             return init_mid(l)
 
-    # def run(self, ca, n=1):
-    #     """Run the game for 'n' timesteps and return the resulting arrays as a tuple."""
-    #     t, l = self.t_pay, self.length
-    #     count, out = 0, [ca]
-    #     while count < n:
-    #         ca_next = run_once(out[-1], t)
-    #         out.append(ca_next.copy())
-    #         count += 1
-    #     return tuple(out)
+    def run(self, ca, n=1, method='lazy'):
+        """Run the game for 'n' timesteps and return the resulting arrays as a tuple."""
+        t = self.t_pay
+        count, out = 0, [ca]
+        while count < n:
+            ca_next = run_once(out[-1], t, method)
+            out.append(ca_next.copy())
+            count += 1
+        return tuple(out)
 
 
 cell = CA(8)

@@ -81,7 +81,21 @@ def pick_coop_bias(arr_strat, b):
     else:
         return 0
 
-dic_funcs = {'lazy': pick_lazy, 'coop_bias': pick_coop_bias}
+def pick_defect_bias(arr_strat, b):
+    a = arr_strat[b]
+    if 0 in a:
+        return 0
+    else:
+        return 1
+
+def pick_indifferent(arr_strat, b):
+    a = arr_strat[b]
+    return np.random.choice(a)
+
+dic_funcs = {'lazy': pick_lazy,
+             'coop_bias': pick_coop_bias,
+             'defect_bias': pick_defect_bias,
+             'indifferent': pick_indifferent}
 
 def max_bool(array_1d):
     """Return an boolean 1D-array with 'True' for the maximum value and 'False' otherwise."""

@@ -24,3 +24,4 @@ fig,axs = plt.subplots(n_rows,3,figsize=(10,10))
 [ax.axis('off') for ax in axs.flatten()]
 vis.show_tuple(arr,axs,True)
 
+plt.show()

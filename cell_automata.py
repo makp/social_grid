@@ -1,22 +1,27 @@
 import numpy as np
 
+
 class CA:
     def __init__(self, num_nbrs):
         self.num_nbrs = num_nbrs
 
     def list_nbrs(self, arr):
-        """Returns an array in which each cell is replaced by a 1D array containing the cell in question followed by its neighbors based on the chosen type of neighborhood (von Neumann and Moore)."""
+        """Returns an array in which each cell is replaced by a 1D array
+        containing the cell in question followed by its neighbors based on
+        the chosen type of neighborhood (von Neumann and Moore)."""
         nbr = dic[self.num_nbrs]  # nbr type
         arrs = np.array(tuple(rotateCA(arr, *t) for t in nbr))
-        out = np.dstack((arr,*arrs))
+        out = np.dstack((arr, *arrs))
         return out
 
     def map_nbrs(self, arr, func):
-        """Returns a 2D-array in which each cell is the result applying the function 'func' to each cell in 'arr' and all of its neighbors."""
+        """Returns a 2D-array in which each cell is the result applying the
+        function 'func' to each cell in 'arr' and all of its neighbors."""
         arr_nbrs = self.list_nbrs(arr)
         gen = (func(*xs) for row in arr_nbrs for xs in row)
         out = np.array(tuple(gen)).reshape(arr.shape)
         return out
+
 
 # Four neighbors
 neighNeumann = ((+1, 0),        # N (immediately above)
@@ -33,14 +38,16 @@ neighMoore = (*neighNeumann,
 
 dic = {4: neighNeumann, 8: neighMoore}
 
+
 def rotate_right(array, steps):
     a = array[-steps:]
     b = array[:-steps]
-    return np.concatenate((a,b))
+    return np.concatenate((a, b))
+
 
 def rotateCA(arr, i, j):
-    """Return 'arr' after rotating its rows i steps and the members of each row by j steps."""
+    """Return 'arr' after rotating its rows i steps and
+    the members of each row by j steps."""
     arr = rotate_right(arr, i)                    # rotate rows
-    t = tuple(rotate_right(row,j) for row in arr)  # rotate elements
+    t = tuple(rotate_right(row, j) for row in arr)  # rotate elements
     return np.array(t)
-

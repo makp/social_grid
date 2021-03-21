@@ -8,14 +8,14 @@ arr[2, 4] = 1
 
 def walk(x, *nbrs):
     if x == 0:
-        return list((x, *nbrs))
+        return np.array((x, *nbrs))
     else:
         lst = list(nbrs)
         inds = range(len(lst))
         inds_empty = [i for i in inds if lst[i] == 0]
         if inds_empty == []:        # no empty cells
-            return [1]+lst          # stay put
+            return np.array([1]+lst)          # stay put
         else:
             ind_choice = np.random.choice(inds_empty)
             lst[ind_choice] = 1
-            return [0]+lst
+            return np.array([0]+lst)

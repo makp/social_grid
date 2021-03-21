@@ -6,9 +6,9 @@ class CA:
         self.num_nbrs = num_nbrs
 
     def list_nbrs(self, arr):
-        """Returns an array in which each cell is replaced by a 1D array
+        """Returns an array in which each cell is replaced by an 1D array
         containing the cell in question followed by its neighbors based on
-        the chosen type of neighborhood (von Neumann and Moore)."""
+        the chosen type of neighborhood (von Neumann or Moore)."""
         nbr = dic[self.num_nbrs]  # nbr type
         arrs = np.array(tuple(rotateCA(arr, *t) for t in nbr))
         out = np.dstack((arr, *arrs))

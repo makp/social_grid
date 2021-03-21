@@ -5,12 +5,16 @@ class CA:
     def __init__(self, num_nbrs):
         self.num_nbrs = num_nbrs
 
+    def rotate_array(self, arr):
+        nbr = dic[self.num_nbrs]  # nbr type
+        arrs = np.array([rotateCA(arr, *t) for t in nbr])
+        return arrs
+
     def list_nbrs(self, arr):
         """Returns an array in which each cell is replaced by an 1D array
         containing the cell in question followed by its neighbors based on
         the chosen type of neighborhood (von Neumann or Moore)."""
-        nbr = dic[self.num_nbrs]  # nbr type
-        arrs = np.array(tuple(rotateCA(arr, *t) for t in nbr))
+        arrs = self.rotate_array(arr)
         out = np.dstack((arr, *arrs))
         return out
 

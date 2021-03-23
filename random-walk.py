@@ -11,6 +11,13 @@ def make_grid(i, j):
     return np.stack(a, axis=-1)
 
 
+def make_grid_with_nbrs(i, j):
+    grid = make_grid(i, j)
+    nbrs = ca.rotate_array(grid)
+    out = np.stack((grid, *nbrs), axis=-2)
+    return out
+
+
 def walk(x, *nbrs):
     if x == 0:
         return np.array((x, *nbrs))

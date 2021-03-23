@@ -6,16 +6,11 @@ arr = np.zeros((5, 9))
 arr[2, 4] = 1
 
 
-def make_grid(i, j):
-    a = np.indices((i, j))
-    return np.stack(a, axis=-1)
-
-
 def make_grid_with_nbrs(i, j):
-    grid = make_grid(i, j)
-    nbrs = ca.rotate_array(grid)
-    out = np.stack((grid, *nbrs), axis=-2)
-    return out
+    a = np.indices((i, j))
+    grid = np.stack(a, axis=-1)
+    nbrs = ca.list_nbrs(grid)
+    return nbrs
 
 
 def walk(x, *nbrs):

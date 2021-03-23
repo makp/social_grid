@@ -15,7 +15,7 @@ class CA:
         containing the cell in question followed by its neighbors based on
         the chosen type of neighborhood (von Neumann or Moore)."""
         arrs = self.rotate_array(arr)
-        out = np.dstack((arr, *arrs))
+        out = np.stack((arr, *arrs), axis=-1)
         return out
 
     def map_nbrs(self, arr, func):

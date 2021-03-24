@@ -37,7 +37,7 @@ def update_walk(arr):
 
 def update_walk_multi(arr, n):
     out = [arr]
-    for i in range(n):
+    for _ in range(n):
         out.append(update_walk(out[-1]))
     return out
 

@@ -2,8 +2,8 @@ import numpy as np
 from cell_automata import CA
 
 ca = CA(4)                      # von Neumann nbr
-arr = np.zeros((5, 9))
-arr[2, 4] = 1
+arr = np.zeros((5, 9), dtype=int)
+arr[2, 4:7] = 1
 
 
 def make_nbrs_indices(arr):
@@ -32,7 +32,7 @@ def update_walk(arr):
             arr_new[index] = x_new
             for i, n in zip(inds, nbrs_new):
                 arr_new[i] = n
-    return arr_new * 1/2
+    return arr_new // 2
 
 
 def update_walk_multi(arr, n):
@@ -47,7 +47,7 @@ def walk(nbrs):
     inds_empty = [i for i in r if nbrs[i] == 0]
     if inds_empty:              # empty spots available
         c = np.random.choice(inds_empty)
-        out = (0, nbrs[:c]+[2]+nbrs[c+1:])
+        out = (1, nbrs[:c]+[2]+nbrs[c+1:])
     else:
         out = (2, nbrs)         # stay put
     return out

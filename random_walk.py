@@ -1,9 +1,19 @@
 import numpy as np
 from cell_automata import CA
 
+
+class RandomWalk:
+    def __init__(self):
+        pass
+
+    def walk_and_update_multi(self, arr, n):
+        out = [arr]
+        for _ in range(n):
+            out.append(walk_and_update(out[-1]))
+        return out
+
+
 ca = CA(4)                      # von Neumann nbr
-arr = np.zeros((5, 9), dtype=int)
-arr[2, 4:7] = 1
 
 
 def make_index_arrays(arr):
@@ -14,10 +24,8 @@ def make_index_arrays(arr):
     return out
 
 
-index_arrays_nbrs = make_index_arrays(arr)
-
-
-def get_nbrs_indices(index):
+def get_nbrs_indices(arr, index):
+    index_arrays_nbrs = make_index_arrays(arr)
     i, j = index
     rows = index_arrays_nbrs[:, 0, i, j]
     cols = index_arrays_nbrs[:, 1, i, j]
@@ -40,16 +48,9 @@ def walk_and_update(arr):
     grid = np.copy(arr)
     indices = np.nonzero(grid)
     for index in np.nditer(indices):
-        inds = get_nbrs_indices(index)
+        inds = get_nbrs_indices(arr, index)
         nbrs = grid[inds[0], inds[1]]
         x, nbrs = walk(nbrs)
         grid[index] = x
         grid[inds[0], inds[1]] = nbrs
     return grid//2
-
-
-def walk_and_update_multi(arr, n):
-    out = [arr]
-    for _ in range(n):
-        out.append(walk_and_update(out[-1]))
-    return out

@@ -6,52 +6,50 @@ arr = np.zeros((5, 9), dtype=int)
 arr[2, 4:7] = 1
 
 
-def make_nbrs_indices(arr):
+def make_index_arrays(arr):
     a = np.indices(arr.shape)
-    grid = np.stack(a, axis=-1)
-    nbrs = ca.rotate_array(grid)
-    return nbrs
+    rows = ca.rotate_array(a[0])
+    cols = ca.rotate_array(a[1])
+    out = np.stack((rows, cols), axis=1)
+    return out
 
 
-nbrs_indices = make_nbrs_indices(arr)
+index_arrays_nbrs = make_index_arrays(arr)
 
 
 def get_nbrs_indices(index):
     i, j = index
-    inds = [tuple(ind) for ind in nbrs_indices[:, i, j]]
-    return inds
+    rows = index_arrays_nbrs[:, 0, i, j]
+    cols = index_arrays_nbrs[:, 1, i, j]
+    return np.array((rows, cols))
 
 
-def walk(nbrs):
-    r = range(len(nbrs))
-    inds_empty = [i for i in r if nbrs[i] == 0]
-    if inds_empty:              # empty spots available
+def walk(arr):
+    nbrs = np.copy(arr)
+    inds_empty = np.where(nbrs == 0)[0]
+    if inds_empty.size > 0:
         c = np.random.choice(inds_empty)
         nbrs[c] = 2
         out = 1, nbrs
     else:
-        out = 2, nbrs         # stay put
+        out = 2, nbrs
     return out
 
 
-def update_walk(arr):
-    arr_new = np.copy(arr)
-    for index, x in np.ndenumerate(arr_new):
-        if x == 1:
-            inds = get_nbrs_indices(index)
-            nbrs = [arr[ind] for ind in inds]
-            x_new, nbrs_new = walk(nbrs)
-            arr_new[index] = x_new
-            for i, n in zip(inds, nbrs_new):
-                arr_new[i] = n
-    return arr_new // 2
+def walk_and_update(arr):
+    grid = np.copy(arr)
+    indices = np.nonzero(grid)
+    for index in np.nditer(indices):
+        inds = get_nbrs_indices(index)
+        nbrs = grid[inds[0], inds[1]]
+        x, nbrs = walk(nbrs)
+        grid[index] = x
+        grid[inds[0], inds[1]] = nbrs
+    return grid//2
 
 
-def update_walk_multi(arr, n):
+def walk_and_update_multi(arr, n):
     out = [arr]
     for _ in range(n):
-        out.append(update_walk(out[-1]))
+        out.append(walk_and_update(out[-1]))
     return out
-
-
-

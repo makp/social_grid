@@ -7,7 +7,7 @@ class CA:
 
     def rotate_array(self, arr):
         nbr = dic[self.num_nbrs]  # nbr type
-        arrs = np.array([rotateCA(arr, *t) for t in nbr])
+        arrs = np.array([rotate2d(arr, *t) for t in nbr])
         return arrs
 
     def list_nbrs(self, arr):
@@ -49,7 +49,7 @@ def rotate_right(array, steps):
     return np.concatenate((a, b))
 
 
-def rotateCA(arr, i, j):
+def rotate2d(arr, i, j):
     """Return 'arr' after rotating its rows i steps and
     the members of each row by j steps."""
     arr = rotate_right(arr, i)                    # rotate rows

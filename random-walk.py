@@ -22,6 +22,18 @@ def get_nbrs_indices(index):
     return inds
 
 
+def walk(nbrs):
+    r = range(len(nbrs))
+    inds_empty = [i for i in r if nbrs[i] == 0]
+    if inds_empty:              # empty spots available
+        c = np.random.choice(inds_empty)
+        nbrs[c] = 2
+        out = 1, nbrs
+    else:
+        out = 2, nbrs         # stay put
+    return out
+
+
 def update_walk(arr):
     arr_new = np.copy(arr)
     for index, x in np.ndenumerate(arr_new):
@@ -42,12 +54,4 @@ def update_walk_multi(arr, n):
     return out
 
 
-def walk(nbrs):
-    r = range(len(nbrs))
-    inds_empty = [i for i in r if nbrs[i] == 0]
-    if inds_empty:              # empty spots available
-        c = np.random.choice(inds_empty)
-        out = (1, nbrs[:c]+[2]+nbrs[c+1:])
-    else:
-        out = (2, nbrs)         # stay put
-    return out
+

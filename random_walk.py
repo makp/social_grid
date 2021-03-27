@@ -6,7 +6,7 @@ class RandomWalk:
     def __init__(self):
         pass
 
-    def walk_and_update_multi(self, arr, n):
+    def walk_and_update_multi(self, arr, n=1):
         out = [arr]
         for _ in range(n):
             out.append(walk_and_update(out[-1]))

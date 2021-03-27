@@ -25,11 +25,10 @@ class PD(CA):
     def run(self, ca, n=1, method='lazy'):
         """Run the game for 'n' timesteps and return the resulting arrays as a tuple."""
         t = self.t_pay
-        count, out = 0, [ca]
-        while count < n:
+        out = [ca]
+        for _ in range(n):
             ca_next = run_once(out[-1], t, method)
             out.append(ca_next.copy())
-            count += 1
         return tuple(out)
 
 

@@ -2,21 +2,16 @@ import numpy as np
 from cell_automata import CA
 
 
-class RandomWalk:
-    def __init__(self):
-        pass
-
+class RandomWalk(CA):
     def walk_and_update_multi(self, arr, n=1):
         out = [arr]
         for _ in range(n):
-            out.append(walk_and_update(out[-1]))
+            out.append(walk_and_update(out[-1], self.num_nbrs))
         return out
 
 
-ca = CA(4)                      # von Neumann nbr
-
-
-def make_index_arrays(arr):
+def make_index_arrays(arr, num_nbrs):
+    ca = CA(num_nbrs)
     a = np.indices(arr.shape)
     rows = ca.rotate_array(a[0])
     cols = ca.rotate_array(a[1])
@@ -24,11 +19,11 @@ def make_index_arrays(arr):
     return out
 
 
-def get_nbrs_indices(arr, index):
-    index_arrays_nbrs = make_index_arrays(arr)
+def get_nbrs_indices(arr, index, num_nbrs):
+    index_nbrs = make_index_arrays(arr, num_nbrs)
     i, j = index
-    rows = index_arrays_nbrs[:, 0, i, j]
-    cols = index_arrays_nbrs[:, 1, i, j]
+    rows = index_nbrs[:, 0, i, j]
+    cols = index_nbrs[:, 1, i, j]
     return np.array((rows, cols))
 
 
@@ -44,11 +39,11 @@ def walk(arr):
     return out
 
 
-def walk_and_update(arr):
+def walk_and_update(arr, num_nbrs):
     grid = np.copy(arr)
     indices = np.nonzero(grid)
     for index in np.nditer(indices):
-        inds = get_nbrs_indices(arr, index)
+        inds = get_nbrs_indices(arr, index, num_nbrs)
         nbrs = grid[inds[0], inds[1]]
         x, nbrs = walk(nbrs)
         grid[index] = x

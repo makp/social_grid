@@ -17,7 +17,7 @@ class PD(CA):
 
     def create_init(self, l, prob):
         """Create the initial array."""
-        if 0<prob<1:
+        if 0 < prob < 1:
             return init_random(prob,l)
         elif prob == 1:
             return init_mid(l)
@@ -34,20 +34,22 @@ class PD(CA):
 
 cell = CA(8)
 
+
 #
 # Initial array
 #
 def init_random(p, l):
     """Generate a random array with 0s (defectors) and 1s (coorperators) with probability '1-prob' and 'prob,' respectively."""
-    return np.random.choice(2, size=(l,l), p=[1-p, p])
+    return np.random.choice(2, size=(l, l), p=[1-p, p])
 
 
 def init_mid(l):
     """Generate array with a single defector in the middle of the grid---or approximately the middle when length is an even number."""
     m = (l-1)//2
     arr = np.ones((l,l))
-    arr[m,m] = 0
+    arr[m, m] = 0
     return arr
+
 
 #
 # Functions used to run one time step

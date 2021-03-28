@@ -15,12 +15,12 @@ class PD(CA):
         super().__init__(8)     # Use Moore nbr
         self.t_pay = t          # temptation for defecting
 
-    def create_init(self, l, prob):
+    def create_init(self, size, prob):
         """Create the initial array."""
         if 0 < prob < 1:
-            return init_random(prob,l)
+            return init_random(prob, size)
         elif prob == 1:
-            return init_mid(l)
+            return init_mid(size)
 
     def run(self, ca, n=1, method='lazy'):
         """Run the game for 'n' timesteps and return the resulting arrays as a tuple."""
@@ -38,15 +38,15 @@ cell = CA(8)
 #
 # Initial array
 #
-def init_random(p, l):
+def init_random(p, s):
     """Generate a random array with 0s (defectors) and 1s (coorperators) with probability '1-prob' and 'prob,' respectively."""
-    return np.random.choice(2, size=(l, l), p=[1-p, p])
+    return np.random.choice(2, size=(s, s), p=[1-p, p])
 
 
-def init_mid(l):
+def init_mid(s):
     """Generate array with a single defector in the middle of the grid---or approximately the middle when length is an even number."""
-    m = (l-1)//2
-    arr = np.ones((l,l))
+    m = (s-1)//2
+    arr = np.ones((s, s))
     arr[m, m] = 0
     return arr
 

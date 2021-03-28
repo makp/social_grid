@@ -55,7 +55,7 @@ def init_mid(s):
 # Functions used to run one time step
 #
 def run_once(ca, t_pay, m):
-    pa = payoff_array(ca,t_pay)
+    pa = payoff_array(ca, t_pay)
     pa_nbrs = cell.list_nbrs(pa)
     ca_nbrs = cell.list_nbrs(ca)
     z = zip(pa_nbrs, ca_nbrs)
@@ -115,15 +115,14 @@ def max_bool(array_1d):
 
 def payoff_array(ca, t_pay):
     """Returns a tuple with two members. The first member is an array containing every cell of 'ca' followed by its Moore neighbors. The second member of the tuple is an array storing the payoff for each cell (payoff_cell)."""
-    func = lambda *xs: payoff_cell(t_pay, *xs)
-    return cell.map_nbrs(ca, func)
+    return cell.map_nbrs(ca, lambda *xs: payoff_cell(t_pay, *xs))
 
 
 def payoff_cell(t_pay, focal, *nbrs):
     '''Return total payoff for a focal cell due to pairwise interactions with neighbors.'''
     total = sum((focal, *nbrs))
-    if focal == 1:              # cooperators
+    if focal == 1:              # cooperator
         pay = total
-    elif focal == 0:            # defectors
+    elif focal == 0:            # defector
         pay = t_pay*total
     return pay

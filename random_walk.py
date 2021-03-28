@@ -27,16 +27,13 @@ def get_nbrs_indices(arr, index, num_nbrs):
     return np.array((rows, cols))
 
 
-def walk(arr):
+def walk(val, arr):
     nbrs = np.copy(arr)
     inds_empty = np.where(nbrs == 0)[0]
     if inds_empty.size > 0:
         c = np.random.choice(inds_empty)
-        nbrs[c] = 2
-        out = 1, nbrs
-    else:
-        out = 2, nbrs
-    return out
+        nbrs[c] = val
+    return val, nbrs
 
 
 def walk_and_update(arr, num_nbrs):
@@ -45,7 +42,8 @@ def walk_and_update(arr, num_nbrs):
     for index in np.nditer(indices):
         inds = get_nbrs_indices(arr, index, num_nbrs)
         nbrs = grid[inds[0], inds[1]]
-        x, nbrs = walk(nbrs)
-        grid[index] = x
+        val = grid[index]
+        val_new, nbrs = walk(val, nbrs)
+        grid[index] = val_new
         grid[inds[0], inds[1]] = nbrs
-    return grid//2
+    return grid - arr

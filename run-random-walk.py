@@ -2,6 +2,6 @@ import numpy as np
 from random_walk import RandomWalk
 
 arr = np.zeros((5, 9), dtype=int)
-arr[2, 4:7] = 1
+arr[2, 4:7] = np.arange(1, 4)
 
 RandomWalk(4).walk_and_update_multi(arr, 10)

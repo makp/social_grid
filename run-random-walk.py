@@ -1,7 +1,6 @@
-import numpy as np
 from random_walk import RandomWalk
 
-arr = np.zeros((5, 9), dtype=int)
-arr[2, 4:7] = np.arange(1, 4)
+randw = RandomWalk(4)
 
-RandomWalk(4).walk_and_update_multi(arr, 10)
+arr = randw.make_grid(10, 4)
+randw.walk_and_update_multi(arr, 10)

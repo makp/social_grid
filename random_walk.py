@@ -9,6 +9,13 @@ class RandomWalk(CA):
             out.append(walk_and_update(out[-1], self.num_nbrs))
         return out
 
+    def make_grid(self, size, num_agents):
+        agents = np.arange(1, num_agents+1)
+        arr = np.zeros(size**2, dtype=int)
+        arr[:num_agents] = agents
+        np.random.shuffle(arr)
+        return arr.reshape((size, size))
+
 
 def make_index_arrays(arr, num_nbrs):
     ca = CA(num_nbrs)

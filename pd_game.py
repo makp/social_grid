@@ -23,7 +23,8 @@ class PD(CA):
             return init_mid(size)
 
     def run(self, ca, n=1, method='lazy'):
-        """Run the game for 'n' timesteps and return the resulting arrays as a tuple."""
+        """Run the game for 'n' timesteps and return the resulting
+        arrays as a tuple."""
         t = self.t_pay
         out = [ca]
         for _ in range(n):
@@ -39,12 +40,16 @@ cell = CA(8)
 # Initial array
 #
 def init_random(p, s):
-    """Generate a random array with 0s (defectors) and 1s (coorperators) with probability '1-prob' and 'prob,' respectively."""
+    """Generate a random array with 0s (defectors) and 1s
+    (coorperators) with probability '1-prob' and 'prob,'
+    respectively."""
     return np.random.choice(2, size=(s, s), p=[1-p, p])
 
 
 def init_mid(s):
-    """Generate array with a single defector in the middle of the grid---or approximately the middle when length is an even number."""
+    """Generate array with a single defector in the middle of the
+    grid---or approximately the middle when length is an even
+    number."""
     m = (s-1)//2
     arr = np.ones((s, s))
     arr[m, m] = 0
@@ -95,6 +100,7 @@ def pick_defect_bias(arr_strat, b):
     else:
         return 1
 
+
 def pick_indifferent(arr_strat, b):
     a = arr_strat[b]
     return np.random.choice(a)
@@ -107,19 +113,24 @@ dic_funcs = {'lazy': pick_lazy,
 
 
 def max_bool(array_1d):
-    """Return an boolean 1D-array with 'True' for the maximum value and 'False' otherwise."""
+    """Return an boolean 1D-array with 'True' for the maximum value
+    and 'False' otherwise."""
     m = max(array_1d)
     array_bool = array_1d == m
     return array_bool
 
 
 def payoff_array(ca, t_pay):
-    """Returns a tuple with two members. The first member is an array containing every cell of 'ca' followed by its Moore neighbors. The second member of the tuple is an array storing the payoff for each cell (payoff_cell)."""
+    """Returns a tuple with two members. The first member is an array
+    containing every cell of 'ca' followed by its Moore neighbors. The
+    second member of the tuple is an array storing the payoff for each
+    cell (payoff_cell)."""
     return cell.map_nbrs(ca, lambda *xs: payoff_cell(t_pay, *xs))
 
 
 def payoff_cell(t_pay, focal, *nbrs):
-    '''Return total payoff for a focal cell due to pairwise interactions with neighbors.'''
+    '''Return total payoff for a focal cell due to pairwise
+    interactions with neighbors.'''
     total = sum((focal, *nbrs))
     if focal == 1:              # cooperator
         pay = total

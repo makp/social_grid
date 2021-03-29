@@ -22,7 +22,9 @@ class Show:
 
 
 def rgb_convert_with_hist(t_arrs, dic):
-    """Group consecutive arrays from t_arrs into pairs, and then transform each pair into an array with RGB values according to dictionary 'dic.'"""
+    """Group consecutive arrays from t_arrs into pairs, and then
+    transform each pair into an array with RGB values according to
+    dictionary 'dic.'"""
     gen = pair_arrays(t_arrs)
     out = []
     arr_new = np.empty((*t_arrs[0].shape, 3))
@@ -40,7 +42,8 @@ def rgb_convert_sans_hist(t_arrs, dic):
 
 
 def pair_arrays(t_arrs):
-    """Returns a generator that pairs consecutive arrays in the tuple 't_arrs.'"""
+    """Returns a generator that pairs consecutive arrays in the tuple
+    't_arrs.'"""
     t_new = (t_arrs[0], *t_arrs)
     rg = range(len(t_new)-1)
     gen = ((t_new[i], t_new[i+1]) for i in rg)
@@ -48,7 +51,8 @@ def pair_arrays(t_arrs):
 
 
 def rgb_convert_array(arr, dic):
-    """Returns an array that replaces the values of the original 2D-array 'arr' with RGB colors according to dictionary 'dic.'"""
+    """Returns an array that replaces the values of the original
+    2D-array 'arr' with RGB colors according to dictionary 'dic.'"""
     arr_new = np.empty((*arr.shape, 3))  # add extra array to store RGB color
     for key in dic.keys():
         arr_new[arr == key] = dic[key]
@@ -56,11 +60,9 @@ def rgb_convert_array(arr, dic):
 
 
 def rgb_convert_dic(dic):
-    """Return a new version of dictionary 'dic' in which dic.values() are RGB colors intead of color names"""
+    """Return a new version of dictionary 'dic' in which dic.values()
+    are RGB colors intead of color names"""
     keys = dic.keys()
     vals_new = (colors.to_rgb(val) for val in dic.values())
     dic_new = {key: val for key, val in zip(keys, vals_new)}
     return dic_new
-
-# fig, axs = plt.subplots(nrows=1, ncols=5)
-# plt.tight_layout()

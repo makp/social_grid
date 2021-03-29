@@ -17,6 +17,8 @@ arrays = randw.walk_and_update_multi(arr, time_steps)
 
 # Display arrays
 fig, ax = plt.subplots()
+ax.set_xticks([])
+ax.set_yticks([])
 
 
 def animate():

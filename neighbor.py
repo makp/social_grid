@@ -14,14 +14,10 @@ class Nbr:
     def __init__(self, num_nbrs):
         self.num_nbrs = num_nbrs
 
-    def rotate_array(self, arr):
-        nbr = dic[self.num_nbrs]  # nbr type
-        return tuple(rotate2d(arr, *t) for t in nbr)
-
     def list_nbrs(self, arr):
         """Replaces elements of `arr' with 1D arrays containing the
         original cell followed by its neighbors."""
-        t = self.rotate_array(arr)
+        t = self.rotate_arr(arr)
         return np.stack((arr, *t), axis=2)
 
     def map_nbrs(self, arr, func):
@@ -30,6 +26,11 @@ class Nbr:
         arr_nbrs = self.list_nbrs(arr)
         gen = (func(*xs) for row in arr_nbrs for xs in row)
         return np.array(tuple(gen)).reshape(arr.shape)
+
+    def mk_inds_nbrs(self, arr):
+        a = np.indices(arr.shape)
+        rs, cs = (rotate_arr(a[i], self.num_nbrs) for i in range(2))
+        return np.stack((rs, cs), axis=-1)
 
 
 # Four neighbors
@@ -46,6 +47,11 @@ neighMoore = (*neighNeumann,
               (+1, +1))         # NW
 
 dic = {4: neighNeumann, 8: neighMoore}
+
+
+def rotate_arr(arr, num_nbrs):
+    nbr = dic[num_nbrs]  # nbr type
+    return tuple(rotate2d(arr, *t) for t in nbr)
 
 
 def rotate1d(arr1d, s):

@@ -17,15 +17,6 @@ class RandomWalk(Nbr):
         return arr.reshape((size, size))
 
 
-def make_index_arrays(arr, num_nbrs):
-    ca = Nbr(num_nbrs)
-    a = np.indices(arr.shape)
-    rows = np.array(ca.rotate_array(a[0]))
-    cols = np.array(ca.rotate_array(a[1]))
-    out = np.stack((rows, cols), axis=1)
-    return out
-
-
 def get_nbrs_indices(arr, index, num_nbrs):
     index_nbrs = make_index_arrays(arr, num_nbrs)
     i, j = index

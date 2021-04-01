@@ -29,8 +29,7 @@ class Nbr:
         function 'func' to each cell in 'arr' and all of its neighbors."""
         arr_nbrs = self.list_nbrs(arr)
         gen = (func(*xs) for row in arr_nbrs for xs in row)
-        out = np.array(tuple(gen)).reshape(arr.shape)
-        return out
+        return np.array(tuple(gen)).reshape(arr.shape)
 
 
 # Four neighbors

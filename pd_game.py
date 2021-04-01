@@ -1,5 +1,5 @@
 import numpy as np
-from cell_automata import Nbr
+from neighbor import Nbr
 
 
 class PD(Nbr):

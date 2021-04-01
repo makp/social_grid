@@ -1,5 +1,5 @@
 import numpy as np
-from cell_automata import Nbr
+from neighbor import Nbr
 
 ca = Nbr(4)                      # von Neumann nbr
 arr = np.zeros((5, 9), dtype=int)

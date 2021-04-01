@@ -20,8 +20,8 @@ class RandomWalk(Nbr):
 def make_index_arrays(arr, num_nbrs):
     ca = Nbr(num_nbrs)
     a = np.indices(arr.shape)
-    rows = ca.rotate_array(a[0])
-    cols = ca.rotate_array(a[1])
+    rows = np.array(ca.rotate_array(a[0]))
+    cols = np.array(ca.rotate_array(a[1]))
     out = np.stack((rows, cols), axis=1)
     return out
 

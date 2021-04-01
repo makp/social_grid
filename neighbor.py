@@ -16,15 +16,13 @@ class Nbr:
 
     def rotate_array(self, arr):
         nbr = dic[self.num_nbrs]  # nbr type
-        arrs = np.array([rotate2d(arr, *t) for t in nbr])
-        return arrs
+        return tuple(rotate2d(arr, *t) for t in nbr)
 
     def list_nbrs(self, arr):
         """Replaces elements of `arr' with 1D arrays containing the
         original cell followed by its neighbors."""
-        arrs = self.rotate_array(arr)
-        out = np.stack((arr, *arrs), axis=2)
-        return out
+        t = self.rotate_array(arr)
+        return np.stack((arr, *t), axis=2)
 
     def map_nbrs(self, arr, func):
         """Returns a 2D-array in which each cell is the result applying the

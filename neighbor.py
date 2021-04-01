@@ -2,6 +2,15 @@ import numpy as np
 
 
 class Nbr:
+    """Manipulates cell neighbors in a cellular automata.
+
+    Supported types of neighborhood:
+    - von Neumann (4 neighbors)
+    - Moore (8 neighbors)
+
+    Periodic boundary conditions---i.e., borders wrap around.
+"""
+
     def __init__(self, num_nbrs):
         self.num_nbrs = num_nbrs
 
@@ -43,15 +52,19 @@ neighMoore = (*neighNeumann,
 dic = {4: neighNeumann, 8: neighMoore}
 
 
-def rotate1d(array, steps):
-    a = array[-steps:]
-    b = array[:-steps]
-    return np.concatenate((a, b))
+def rotate1d(arr1d, s):
+    """Rotate 1D array.
+
+The returned array is a copy of the 1D array `arr1d' after rotating
+its elements `s' steps."""
+    return np.concatenate((arr1d[-s:], arr1d[:-s]))
 
 
-def rotate2d(arr, i, j):
-    """Return 'arr' after rotating its rows i steps and
-    the members of each row by j steps."""
-    arr = rotate1d(arr, i)                    # rotate rows
+def rotate2d(arr2d, i, j):
+    """Rotate 2D array.
+
+The returned array is a copy of `arr2d' after rotating its rows i
+steps and the members of each row by j steps."""
+    arr = rotate1d(arr2d, i)                    # rotate rows
     t = tuple(rotate1d(row, j) for row in arr)  # rotate elements
     return np.array(t)

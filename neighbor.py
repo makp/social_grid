@@ -20,9 +20,8 @@ class Nbr:
         return arrs
 
     def list_nbrs(self, arr):
-        """Returns an array in which each cell is replaced by an 1D array
-        containing the cell in question followed by its neighbors based on
-        the chosen type of neighborhood (von Neumann or Moore)."""
+        """Replaces elements of `arr' with 1D arrays containing the
+        original cell followed by its neighbors."""
         arrs = self.rotate_array(arr)
         out = np.stack((arr, *arrs), axis=2)
         return out

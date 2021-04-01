@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class CA:
+class Nbr:
     def __init__(self, num_nbrs):
         self.num_nbrs = num_nbrs
 

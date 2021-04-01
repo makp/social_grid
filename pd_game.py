@@ -1,8 +1,8 @@
 import numpy as np
-from cell_automata import CA
+from cell_automata import Nbr
 
 
-class PD(CA):
+class PD(Nbr):
     cdic = {1: 'blue',
             0: 'red'}
 
@@ -33,7 +33,7 @@ class PD(CA):
         return tuple(out)
 
 
-cell = CA(8)
+cell = Nbr(8)
 
 
 #

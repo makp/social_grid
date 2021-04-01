@@ -1,8 +1,8 @@
 import numpy as np
-from cell_automata import CA
+from cell_automata import Nbr
 
 
-class RandomWalk(CA):
+class RandomWalk(Nbr):
     def walk_and_update_multi(self, arr, n=1):
         out = [arr]
         for _ in range(n):
@@ -18,7 +18,7 @@ class RandomWalk(CA):
 
 
 def make_index_arrays(arr, num_nbrs):
-    ca = CA(num_nbrs)
+    ca = Nbr(num_nbrs)
     a = np.indices(arr.shape)
     rows = ca.rotate_array(a[0])
     cols = ca.rotate_array(a[1])

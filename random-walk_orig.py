@@ -1,7 +1,7 @@
 import numpy as np
-from cell_automata import CA
+from cell_automata import Nbr
 
-ca = CA(4)                      # von Neumann nbr
+ca = Nbr(4)                      # von Neumann nbr
 arr = np.zeros((5, 9), dtype=int)
 arr[2, 4:7] = 1
 

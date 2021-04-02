@@ -23,8 +23,8 @@ class RandWalk(Nbr):
 
 
 def walk(a, ia):
+    ind_agents = np.nonzero(a)
     a_new = np.copy(a)
-    ind_agents = np.nonzero(a_new)
     for i, j in np.nditer(ind_agents):
         ag = a[i, j]
         ind_nbrs = tuple(ia[:, k, i, j] for k in range(2))

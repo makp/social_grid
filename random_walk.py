@@ -28,7 +28,7 @@ def walk(a, ia):
     for i, j in np.nditer(ind_agents):
         ag = a[i, j]
         ind_nbrs = tuple(ia[:, k, i, j] for k in range(2))
-        nbrs = a[ind_nbrs]
+        nbrs = a_new[ind_nbrs]
         a_new[i, j], a_new[ind_nbrs] = choose(ag, nbrs)
     return a_new - a
 

@@ -2,46 +2,42 @@ import numpy as np
 from neighbor import Nbr
 
 
-class RandomWalk(Nbr):
-    def walk_and_update_multi(self, arr, n=1):
+class RandWalk(Nbr):
+    def __init__(self, dim, num_nbrs=4):
+        self.dim = dim
+        self.num_nbrs = num_nbrs
+        self.ind_arr = self.get_inds_nbrs(self.dim)
+
+    def walk_multi(self, arr, n=1):
         out = [arr]
         for _ in range(n):
-            out.append(walk_and_update(out[-1], self.num_nbrs))
+            out.append(walk(out[-1], self.ind_arr))
         return out
 
-    def make_grid(self, size, num_agents):
+    def make_grid(self, num_agents):
         agents = np.arange(1, num_agents+1)
-        arr = np.zeros(size**2, dtype=int)
+        arr = np.zeros(self.dim**2, dtype=int)
         arr[:num_agents] = agents
         np.random.shuffle(arr)
-        return arr.reshape((size, size))
+        return arr.reshape((self.dim, self.dim))
 
 
-def get_nbrs_indices(arr, index, num_nbrs):
-    index_nbrs = make_index_arrays(arr, num_nbrs)
-    i, j = index
-    rows = index_nbrs[:, 0, i, j]
-    cols = index_nbrs[:, 1, i, j]
-    return np.array((rows, cols))
+def walk(a, ia):
+    a_new = np.copy(a)
+    ind_agents = np.nonzero(a_new)
+    for i, j in np.nditer(ind_agents):
+        ag = a[i, j]
+        ind_nbrs = tuple(ia[:, k, i, j] for k in range(2))
+        nbrs = a[ind_nbrs]
+        a_new[i, j], a_new[ind_nbrs] = choose(ag, nbrs)
+    return a_new - a
 
 
-def walk(val, arr):
-    nbrs = np.copy(arr)
-    inds_empty = np.where(nbrs == 0)[0]
-    if inds_empty.size > 0:
-        c = np.random.choice(inds_empty)
-        nbrs[c] = val
-    return val, nbrs
-
-
-def walk_and_update(arr, num_nbrs):
-    grid = np.copy(arr)
-    indices = np.nonzero(grid)
-    for index in np.nditer(indices):
-        inds = get_nbrs_indices(arr, index, num_nbrs)
-        nbrs = grid[inds[0], inds[1]]
-        val = grid[index]
-        val_new, nbrs = walk(val, nbrs)
-        grid[index] = val_new
-        grid[inds[0], inds[1]] = nbrs
-    return grid - arr
+def choose(ag, nbrs):
+    ind_zeros = np.where(nbrs == 0)[0]
+    if ind_zeros.size > 0:
+        c = np.random.choice(ind_zeros)
+        nbrs[c] = ag
+    else:
+        ag *= 2
+    return ag, nbrs

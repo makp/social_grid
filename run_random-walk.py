@@ -1,19 +1,20 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
-from random_walk import RandomWalk
+from random_walk import RandWalk
 
-randw = RandomWalk(4)
-
+# pars
 num_agents = 10
-size = 100
-time_steps = 50
+dim = 100
+time_steps = 400
+
+randw = RandWalk(dim)
 
 # Make initial array
-arr = randw.make_grid(size, num_agents)
+arr = randw.make_grid(num_agents)
 
 # Run simulation
-arrays = randw.walk_and_update_multi(arr, time_steps)
+arrays = randw.walk_multi(arr, time_steps)
 
 # Display arrays
 fig, ax = plt.subplots()

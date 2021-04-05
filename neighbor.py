@@ -2,7 +2,7 @@ import numpy as np
 
 
 class Nbr:
-    """Manipulates cell neighbors in a 2D cellular automata.
+    """Provides info about the neighbors of a 2D cellular automata.
 
     Attributes:
     - num_nbrs: Number of neighbors. Possible values:
@@ -20,13 +20,6 @@ class Nbr:
         original cell followed by its neighbors."""
         t = rotate_arr(arr, self.num_nbrs)
         return np.stack((arr, *t), axis=2)
-
-    def map_nbrs(self, arr, func):
-        """Returns a 2D-array in which each cell is the result applying the
-        function 'func' to each cell in 'arr' and all of its neighbors."""
-        arr_nbrs = self.list_nbrs(arr)
-        gen = (func(*xs) for row in arr_nbrs for xs in row)
-        return np.array(tuple(gen)).reshape(arr.shape)
 
     def get_inds_nbrs(self, d):
         a = np.indices((d, d))

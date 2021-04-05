@@ -2,11 +2,12 @@ import numpy as np
 
 
 class Nbr:
-    """Manipulates cell neighbors in a cellular automata.
+    """Manipulates cell neighbors in a 2D cellular automata.
 
-    Supported types of neighborhood:
-    - von Neumann (4 neighbors)
-    - Moore (8 neighbors)
+    Attributes:
+    - num_nbrs: Number of neighbors. Possible values:
+        + 4 (von Neumann neighborhood)
+        + 8 (Moore neighborhood)
 
     Periodic boundary conditions---i.e., borders wrap around.
 """

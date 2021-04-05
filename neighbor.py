@@ -18,7 +18,7 @@ class Nbr:
     def list_nbrs(self, arr):
         """Replaces elements of `arr' with 1D arrays containing the
         original cell followed by its neighbors."""
-        t = rotate_arr(arr)
+        t = rotate_arr(arr, self.num_nbrs)
         return np.stack((arr, *t), axis=2)
 
     def map_nbrs(self, arr, func):

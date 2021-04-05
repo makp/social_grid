@@ -19,8 +19,11 @@ class RandWalk(Nbr):
             out.append(walk(out[-1], self.ind_arr))
         return out
 
-    def make_grid(self, num_walkers):
-        walkers = np.arange(1, num_walkers+1)
+    def make_grid(self, num_walkers, tag=True):
+        if tag:
+            walkers = np.arange(1, num_walkers+1)
+        else:
+            walkers = np.ones(num_walkers)
         arr = np.zeros(self.dim**2, dtype=int)
         arr[:num_walkers] = walkers
         np.random.shuffle(arr)

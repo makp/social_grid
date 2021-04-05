@@ -5,6 +5,10 @@ from neighbor import Nbr
 class RandWalk(Nbr):
     """Models multiple random walkers in a cellular automata.
 
+    Args:
+    - dim: CA dimension
+    - num_nbrs (optional): number of neighbors (4 or 8)
+
     Assumptions:
     - Two walkers cannot occupy the same cell.
     - Periodic boundary conditions."""

@@ -1,8 +1,8 @@
 import numpy as np
-from neighbor import Nbr
+from update import Update
 
 
-class PD(Nbr):
+class PD:
     cdic = {1: 'blue',
             0: 'red'}
 
@@ -12,7 +12,6 @@ class PD(Nbr):
                  (1, 0): 'yellow'}
 
     def __init__(self, t):
-        super().__init__(8)     # Use Moore nbr
         self.t_pay = t          # temptation for defecting
 
     def create_init(self, size, prob):
@@ -33,7 +32,8 @@ class PD(Nbr):
         return tuple(out)
 
 
-cell = Nbr(8)
+# Instance of Nbr class
+nbr = Update(8)
 
 
 #
@@ -59,10 +59,11 @@ def init_mid(s):
 #
 # Functions used to run one time step
 #
+
 def run_once(ca, t_pay, m):
     pa = payoff_array(ca, t_pay)
-    pa_nbrs = cell.list_nbrs(pa)
-    ca_nbrs = cell.list_nbrs(ca)
+    pa_nbrs = nbr.list_nbrs(pa)
+    ca_nbrs = nbr.list_nbrs(ca)
     z = zip(pa_nbrs, ca_nbrs)
     gen = (pick_strat(a1, a2, m) for r1, r2 in z for a1, a2 in zip(r1, r2))
     out = np.array(tuple(gen)).reshape(ca.shape)

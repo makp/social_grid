@@ -19,9 +19,12 @@ class RandWalk(Nbr):
         self.imap = self.inds_dict(self.side)
 
     def run(self, arr, n=1):
-        out = [arr]
-        for _ in range(n):
-            out.append(walk(out[-1], self.imap))
+        if n == 1:
+            out = walk(arr, self.imap)
+        else:
+            out = [arr]
+            for _ in range(n):
+                out.append(walk(out[-1], self.imap))
         return out
 
     def create_init(self, num_walkers, tag=True):

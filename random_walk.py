@@ -6,16 +6,16 @@ class RandWalk(Nbr):
     """Models multiple random walkers in a cellular automata.
 
     Args:
-    - num_nbrs (optional): number of neighbors (4 or 8)
     - side: CA side length
+    - num_nbrs (optional): number of neighbors (4 or 8)
 
     Assumptions:
     - Two walkers cannot occupy the same cell.
     - Periodic boundary conditions."""
 
-    def __init__(self, num_nbrs, side):
-        self.num_nbrs = num_nbrs
+    def __init__(self, side, num_nbrs=4):
         self.side = side
+        self.num_nbrs = num_nbrs
         self.imap = self.inds_dict(self.side)
 
     def run(self, arr, n=1):

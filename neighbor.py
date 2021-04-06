@@ -21,6 +21,16 @@ class Nbr:
         t = rotate_arr(arr, self.num_nbrs)
         return np.stack((arr, *t), axis=2)
 
+    def inds_dict(self, d):
+        a = np.indices((d, d))
+        rs, cs = (rotate_arr(a[i], self.num_nbrs) for i in range(2))
+        ind_nbrs = np.stack((rs, cs), axis=1)
+        dc = {}
+        for i, j in np.ndindex((d, d)):
+            ii, jj = (ind_nbrs[:, axis, i, j] for axis in range(2))
+            dc[(i, j)] = np.stack((ii, jj), axis=-1)
+        return dc
+
     def get_inds_nbrs(self, d):
         a = np.indices((d, d))
         rs, cs = (rotate_arr(a[i], self.num_nbrs) for i in range(2))

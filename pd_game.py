@@ -1,5 +1,5 @@
 import numpy as np
-from update import Update
+from update import UpdateCell
 
 
 class PD:
@@ -14,7 +14,7 @@ class PD:
     def __init__(self, t):
         self.t_pay = t          # temptation for defecting
 
-    def create_init(self, size, prob):
+    def create_init(self, size, prob=1):
         """Create the initial array."""
         if 0 < prob < 1:
             return init_random(prob, size)
@@ -22,7 +22,7 @@ class PD:
             return init_mid(size)
 
     def run(self, ca, n=1, method='lazy'):
-        """Run the game for 'n' timesteps and return the resulting
+        """Run PD game for 'n' timesteps and return the resulting
         arrays as a tuple."""
         t = self.t_pay
         out = [ca]
@@ -32,8 +32,8 @@ class PD:
         return tuple(out)
 
 
-# Instance of Nbr class
-nbr = Update(8)
+# Class instance
+nbr = UpdateCell(8)
 
 
 #
@@ -48,10 +48,9 @@ def init_random(p, s):
 
 def init_mid(s):
     """Generate array with a single defector in the middle of the
-    grid---or approximately the middle when length is an even
+    grid---or approximately the middle when side length is an even
     number."""
-    m = (s-1)//2
-    arr = np.ones((s, s))
+    m, arr = (s-1)//2, np.ones((s, s))
     arr[m, m] = 0
     return arr
 
@@ -61,22 +60,36 @@ def init_mid(s):
 #
 
 def run_once(ca, t_pay, m):
-    pa = payoff_array(ca, t_pay)
-    pa_nbrs = nbr.list_nbrs(pa)
-    ca_nbrs = nbr.list_nbrs(ca)
-    z = zip(pa_nbrs, ca_nbrs)
-    gen = (pick_strat(a1, a2, m) for r1, r2 in z for a1, a2 in zip(r1, r2))
-    out = np.array(tuple(gen)).reshape(ca.shape)
-    return out
+    a_pay = nbr.list_nbrs(payoff_array(ca, t_pay))
+    a_str = nbr.list_nbrs(ca)
+    ca_new = np.empty(ca.shape)
+    for index in np.ndindex(ca.shape):
+        ca_new[index] = strategy(a_pay[index], a_str[index], m)
+    return ca_new
 
 
-def pick_strat(arr_pay, arr_strat, method):
-    b = max_bool(arr_pay)
-    if sum(b) == 1:
+def payoff_array(ca, t_pay):
+    return nbr.update_cell(ca, lambda arr: payoff(t_pay, arr))
+
+
+def payoff(t_pay, arr):
+    """Returns cell payoff from pairwise interactions with neighbors."""
+    total = np.sum(arr)
+    return total if arr[0] else t_pay*total
+
+
+def strategy(arr_pay, arr_strat, method):
+    m = np.max(arr_pay)
+    b = arr_pay == m
+    if np.sum(b) == 1:
         return arr_strat[b][0]
-    elif sum(b) > 1:            # more than one max val found
+    elif np.sum(b) > 1:            # more than one max val
         return dic_funcs[method](arr_strat, b)
 
+
+#
+# Strategies for when defecting and cooperating yields the same payoff
+#
 
 def pick_lazy(arr_strat, b):
     if b[0]:                    # if focal cell is one of the maxs...
@@ -111,30 +124,3 @@ dic_funcs = {'lazy': pick_lazy,
              'coop_bias': pick_coop_bias,
              'defect_bias': pick_defect_bias,
              'indifferent': pick_indifferent}
-
-
-def max_bool(array_1d):
-    """Return an boolean 1D-array with 'True' for the maximum value
-    and 'False' otherwise."""
-    m = max(array_1d)
-    array_bool = array_1d == m
-    return array_bool
-
-
-def payoff_array(ca, t_pay):
-    """Returns a tuple with two members. The first member is an array
-    containing every cell of 'ca' followed by its Moore neighbors. The
-    second member of the tuple is an array storing the payoff for each
-    cell (payoff_cell)."""
-    return cell.map_nbrs(ca, lambda *xs: payoff_cell(t_pay, *xs))
-
-
-def payoff_cell(t_pay, focal, *nbrs):
-    '''Return total payoff for a focal cell due to pairwise
-    interactions with neighbors.'''
-    total = sum((focal, *nbrs))
-    if focal == 1:              # cooperator
-        pay = total
-    elif focal == 0:            # defector
-        pay = t_pay*total
-    return pay

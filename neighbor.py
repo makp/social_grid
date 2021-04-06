@@ -28,13 +28,8 @@ class Nbr:
         dc = {}
         for i, j in np.ndindex((d, d)):
             ii, jj = (ind_nbrs[:, axis, i, j] for axis in range(2))
-            dc[(i, j)] = np.stack((ii, jj), axis=-1)
+            dc[(i, j)] = (ii, jj)
         return dc
-
-    def get_inds_nbrs(self, d):
-        a = np.indices((d, d))
-        rs, cs = (rotate_arr(a[i], self.num_nbrs) for i in range(2))
-        return np.stack((rs, cs), axis=1)
 
 
 # Four neighbors

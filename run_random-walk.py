@@ -5,16 +5,16 @@ from random_walk import RandWalk
 
 # pars
 num_agents = 10
-dim = 100
+side = 100
 time_steps = 400
 
-randw = RandWalk(dim)
+randw = RandWalk(4, side)
 
 # Make initial array
-arr = randw.make_grid(num_agents)
+arr = randw.create_init(num_agents)
 
 # Run simulation
-arrays = randw.walk_multi(arr, time_steps)
+arrays = randw.run(arr, time_steps)
 
 # Display arrays
 fig, ax = plt.subplots()

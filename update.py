@@ -11,3 +11,7 @@ class UpdateCell(Nbr):
         arr_nbrs = self.list_nbrs(arr)
         gen = (func(arr) for row in arr_nbrs for arr in row)
         return np.array(tuple(gen)).reshape(arr.shape)
+
+
+# class UpdateAll(Nbr):
+#     """Update each cell and its neighbors."""

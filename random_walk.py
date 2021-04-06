@@ -6,46 +6,47 @@ class RandWalk(Nbr):
     """Models multiple random walkers in a cellular automata.
 
     Args:
-    - dim: CA dimension
     - num_nbrs (optional): number of neighbors (4 or 8)
+    - side: CA side length
 
     Assumptions:
     - Two walkers cannot occupy the same cell.
     - Periodic boundary conditions."""
-    def __init__(self, dim, num_nbrs=4):
-        self.dim = dim
-        self.num_nbrs = num_nbrs
-        self.ind_arr = self.get_inds_nbrs(self.dim)
 
-    def walk_multi(self, arr, n=1):
+    def __init__(self, num_nbrs, side):
+        self.num_nbrs = num_nbrs
+        self.side = side
+        self.imap = self.inds_dict(self.side)
+
+    def run(self, arr, n=1):
         out = [arr]
         for _ in range(n):
-            out.append(walk(out[-1], self.ind_arr))
+            out.append(walk(out[-1], self.imap))
         return out
 
-    def make_grid(self, num_walkers, tag=True):
+    def create_init(self, num_walkers, tag=True):
         if tag:
-            walkers = np.arange(1, num_walkers+1)
+            walkers = np.arange(1, num_walkers+1)  # differentiate walkers
         else:
-            walkers = np.ones(num_walkers)
-        arr = np.zeros(self.dim**2, dtype=int)
+            walkers = np.ones(num_walkers)  # all walkers are 1s
+        arr = np.zeros(self.side**2, dtype=int)
         arr[:num_walkers] = walkers
         np.random.shuffle(arr)
-        return arr.reshape((self.dim, self.dim))
+        return arr.reshape((self.side, self.side))
 
 
-def walk(a, ia):
-    ind_walkers = np.nonzero(a)
+def walk(a, dic):
     a_new = np.copy(a)
-    for i, j in np.nditer(ind_walkers):
-        walker = a[i, j]
-        ind_nbrs = tuple(ia[:, k, i, j] for k in range(2))
-        nbrs = a_new[ind_nbrs]
-        a_new[i, j], a_new[ind_nbrs] = choose(walker, nbrs)
+    for index in np.ndindex(a.shape):
+        if a[index]:
+            ind_nbrs = dic[index]
+            walker, nbrs = a[index], a_new[ind_nbrs]
+            a_new[index], a_new[ind_nbrs] = choose(walker, nbrs)
     return a_new - a
 
 
 def choose(walker, nbrs):
+    """Choose an empty cell to move to."""
     ind_zeros = np.where(nbrs == 0)[0]
     if ind_zeros.size > 0:
         c = np.random.choice(ind_zeros)

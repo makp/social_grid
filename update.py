@@ -13,5 +13,20 @@ class UpdateCell(Nbr):
         return np.array(tuple(gen)).reshape(arr.shape)
 
 
-# class UpdateAll(Nbr):
-#     """Update each cell and its neighbors."""
+class UpdateAll(Nbr):
+    """Update each cell and its neighbors."""
+
+    def __init__(self, side, num_nbrs=4):
+        self.side = side
+        self.num_nbrs = num_nbrs
+        self.imap = self.inds_dict(self.side)
+
+    def update_nbrs(self, ca, func):
+        """Update neighbors without changing focal cell value."""
+        ca_new = np.copy(ca)
+        for index in np.ndindex(ca.shape):
+            if ca[index]:
+                ind_nbrs = self.imap[index]
+                cell, nbrs = ca[index], ca_new[ind_nbrs]
+                ca_new[ind_nbrs] = func(cell, nbrs)
+        return ca_new

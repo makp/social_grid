@@ -8,7 +8,7 @@ num_agents = 10
 side = 100
 time_steps = 400
 
-randw = RandWalk(4, side)
+randw = RandWalk(side, 4)
 
 # Make initial array
 arr = randw.create_init(num_agents)

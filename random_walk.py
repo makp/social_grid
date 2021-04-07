@@ -45,7 +45,7 @@ def walk(a, dic):
             ind_nbrs = dic[index]
             walker, nbrs = a[index], a_new[ind_nbrs]
             a_new[index], a_new[ind_nbrs] = choose(walker, nbrs)
-    return a_new - a
+    return a_new
 
 
 def choose(walker, nbrs):
@@ -54,6 +54,5 @@ def choose(walker, nbrs):
     if ind_zeros.size > 0:
         c = np.random.choice(ind_zeros)
         nbrs[c] = walker
-    else:
-        walker *= 2
+        walker = 0
     return walker, nbrs

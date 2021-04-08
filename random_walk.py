@@ -18,13 +18,13 @@ class RandWalk(Nbr):
         self.num_nbrs = num_nbrs
         self.imap = self.inds_dict(self.side)
 
-    def run(self, arr, n=1):
+    def run(self, arr, n=1, cond=None):
         if n == 1:
-            out = walk(arr, self.imap)
+            out = walk(arr, self.imap, cond)
         else:
             out = [arr]
             for _ in range(n):
-                out.append(walk(out[-1], self.imap))
+                out.append(walk(out[-1], self.imap, cond))
         return out
 
     def create_init(self, num_walkers, tag=True):
@@ -38,13 +38,17 @@ class RandWalk(Nbr):
         return arr.reshape((self.side, self.side))
 
 
-def walk(a, dic):
+def walk(a, dic, cond):
+    if cond:
+        arr = np.stack(np.indices(a.shape), axis=-1)
+        inds = arr[a == cond]
+    else:
+        inds = np.stack(np.nonzero(a), axis=-1)
     a_new = np.copy(a)
-    for index in np.ndindex(a.shape):
-        if a[index]:
-            ind_nbrs = dic[index]
-            walker, nbrs = a[index], a_new[ind_nbrs]
-            a_new[index], a_new[ind_nbrs] = choose(walker, nbrs)
+    for i, j in inds:
+        ind_nbrs = dic[i, j]
+        walker, nbrs = a[i, j], a_new[ind_nbrs]
+        a_new[i, j], a_new[ind_nbrs] = choose(walker, nbrs)
     return a_new
 
 

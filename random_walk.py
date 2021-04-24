@@ -45,6 +45,7 @@ def walk(a, dic, cond):
     else:
         inds = np.stack(np.nonzero(a), axis=-1)
     a_new = np.copy(a)
+    np.random.shuffle(inds)
     for i, j in inds:
         ind_nbrs = dic[i, j]
         walker, nbrs = a[i, j], a_new[ind_nbrs]

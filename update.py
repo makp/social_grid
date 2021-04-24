@@ -22,7 +22,7 @@ class UpdateAll(Nbr):
         self.imap = self.inds_dict(self.side)
 
     def update_nbrs(self, ca, func):
-        """Update neighbors without changing focal cell value."""
+        """Update neighbors without changing focal cell."""
         ca_new = np.copy(ca)
         for index in np.ndindex(ca.shape):
             if ca[index]:

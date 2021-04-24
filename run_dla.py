@@ -3,15 +3,15 @@ import matplotlib.pyplot as plt
 from update import UpdateAll
 from random_walk import RandWalk
 
-side = 500
-num_walkers = side**2//4
-time_steps = 500
+side = 300
+num_walkers = side**2//8
+time_steps = 1500
 
 agg = UpdateAll(side, 8)        # aggregation nbr
 rw = RandWalk(side)             # random walk
 
-init = rw.create_init(num_walkers, False)
-init[side//2, side//2] = 2        # sticky cell
+init = rw.create_init(num_walkers, False)  # all walkers labeled as 1
+init[side//2, side//2] = 2                 # sticky cell
 
 
 def stick(cell, nbrs):
@@ -42,6 +42,7 @@ def run_sans_memory(init, n=1):
 
 
 res = run_sans_memory(init, time_steps)
+plt.axis('off')
 plt.imshow(res)
 
 plt.show()

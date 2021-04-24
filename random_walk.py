@@ -57,6 +57,5 @@ def choose(walker, nbrs):
     ind_zeros = np.where(nbrs == 0)[0]
     if ind_zeros.size > 0:
         c = np.random.choice(ind_zeros)
-        nbrs[c] = walker
-        walker = 0
+        nbrs[c], walker = walker, 0
     return walker, nbrs

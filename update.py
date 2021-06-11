@@ -3,7 +3,7 @@ from neighbor import Nbr
 
 
 class UpdateCell(Nbr):
-    """Updates each cell in a CA based on its neighbor values."""
+    """Updates each cell based on its state and its neighbors' states."""
 
     def update_cell(self, arr, func):
         """Returns a 2D-array in which each cell is the result applying the

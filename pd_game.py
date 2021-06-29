@@ -60,8 +60,8 @@ def init_mid(s):
 #
 
 def run_once(ca, t_pay, m):
-    a_pay = nbr.list_nbrs(payoff_array(ca, t_pay))
-    a_str = nbr.list_nbrs(ca)
+    a_pay = nbr.cell_and_nbrs(payoff_array(ca, t_pay))
+    a_str = nbr.cell_and_nbrs(ca)
     ca_new = np.empty(ca.shape)
     for index in np.ndindex(ca.shape):
         ca_new[index] = strategy(a_pay[index], a_str[index], m)

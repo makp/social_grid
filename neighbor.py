@@ -15,11 +15,11 @@ class Nbr:
     def __init__(self, num_nbrs):
         self.num_nbrs = num_nbrs
 
-    def list_nbrs_only(self, arr):
+    def nbrs_only(self, arr):
         t = rotate_arr(arr, self.num_nbrs)
         return np.stack(t, axis=2)
 
-    def list_nbrs(self, arr):
+    def cell_and_nbrs(self, arr):
         """Replaces elements of `arr' with 1D arrays containing the
         original cell followed by its neighbors."""
         t = rotate_arr(arr, self.num_nbrs)

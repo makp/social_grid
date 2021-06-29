@@ -14,7 +14,7 @@ arr0 = np.random.choice([0, 1], size=(side, side), p=[1-p0, p0])
 
 def create_inds(shape):
     a = np.stack(np.indices(shape), axis=-1)
-    return Nbr(4).list_nbrs(a)
+    return Nbr(4).cell_and_nbrs(a)
 
 
 inds_nbrs = create_inds((side, side))

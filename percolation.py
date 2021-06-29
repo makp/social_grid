@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from neighbor import Nbr
 
-side, p0, nbr_type = 10, 0.58, 8
+side, p0, nbr_type = 600, 0.58, 4
 
 np.random.seed(999)
 
@@ -52,5 +52,5 @@ def find_nbr_tags(arr, i, j):
 
 arr_clusters = tag_clusters(arr0)
 # arr_clusters
-plt.imshow(arr_clusters)
+plt.imshow(arr_clusters, interpolation='nearest')
 plt.show()

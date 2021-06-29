@@ -1,11 +1,12 @@
-#  FIXME:  The function `fix_overlaps' does a partial job at
-# identifying overlapping clusters.#
+#
+#  TODO:  Make func `fix_overlaps' more efficient.
+#
 
 import numpy as np
 import matplotlib.pyplot as plt
 from neighbor import Nbr
 
-side, p0, nbr_type = 600, 0.58, 4
+side, p0, nbr_type = 233, 0.6, 4
 
 np.random.seed(999)
 
@@ -31,14 +32,17 @@ def tag_clusters(arr):
             else:
                 arr2d[i, j] = tag_new
                 tag_new += 1
-    return fix_overlaps(arr2d)
+    for _ in range(side):
+        if (arr2d != fix_overlaps(arr2d)).any():
+            arr2d = fix_overlaps(arr2d)
+    return arr2d
 
 
 def fix_overlaps(arr):
     for (i, j), val in np.ndenumerate(arr):
         if val > 1:
             nbr_tags = find_nbr_tags(arr, i, j)
-            if nbr_tags.any():
+            if (nbr_tags < val).any():
                 arr[i, j] = min(nbr_tags)
     return arr
 
@@ -52,5 +56,6 @@ def find_nbr_tags(arr, i, j):
 
 arr_clusters = tag_clusters(arr0)
 # arr_clusters
+# arr0, arr_clusters, fix_overlaps(arr_clusters)
 plt.imshow(arr_clusters, interpolation='nearest')
 plt.show()

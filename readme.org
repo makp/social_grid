@@ -2,7 +2,7 @@
 
 Simple simulations of social interactions using Cellular Automata.
 
-* Prisoner's Dilemma on a grid
+* Prisoner's Dilemma
 The following grid simulates how the cheater strategy (red) spreads from the center in a world of cooperators (blue):
 
 [[./figures/pd-with-coop-bias.png]]
@@ -11,12 +11,11 @@ The color yellow is used to represent cells that have recently turned into cheat
 ** References
 - A. Lloyd 1995 "[[https://www.jstor.org/stable/24980839][Computing Bouts of the Prisoner's Dilemma]]" /Scientific American/
 
-* Snowdrift on a grid
-
-TODO.
+# TODO: Snowdrift and stag hunt games
 
 * Aggregation
 Diffusion-limited aggregation:
 
 #+ATTR_ORG: :width 1
 [[./figures/dla_resized.png]]
+

@@ -1,0 +1,6 @@
+#+TITLE: Aggregation
+
+Diffusion-limited aggregation:
+
+#+ATTR_ORG: :width 1
+[[./figures/dla_resized.png]]

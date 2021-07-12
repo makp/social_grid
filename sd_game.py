@@ -6,6 +6,11 @@ class SD:
     cdic = {1: 'blue',
             0: 'red'}
 
+    cdic_hist = {(0, 0): 'red',
+                 (1, 1): 'blue',
+                 (0, 1): 'green',
+                 (1, 0): 'yellow'}
+
     def __init__(self, t):
         self.t_pay = t          # temptation for defecting
 

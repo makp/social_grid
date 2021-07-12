@@ -3,8 +3,8 @@
 Simple simulations of social interactions using Cellular Automata.
 
 ** Examples
-+ [[file:pd.org::+TITLE: The Prisoner's Dilemma][Prisoner's Dilemma]]
-+ [[file:dla.org::+TITLE: Aggregation][Aggregation]] (Diffusion-limited aggregation)
++ [[file:pd.org][Prisoner's Dilemma]]
++ [[file:dla.org][Aggregation]] (Diffusion-limited aggregation)
 
 # TODO: Snowdrift and stag hunt games
 

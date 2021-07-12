@@ -41,14 +41,14 @@ nbr = UpdateCell(8)
 #
 def init_random(p, s):
     """Generate a random array with 0s (defectors) and 1s
-    (coorperators) with probability '1-prob' and 'prob,'
+    (coorperators) with probability '1-p' and 'p',
     respectively."""
     return np.random.choice(2, size=(s, s), p=[1-p, p])
 
 
 def init_mid(s):
     """Generate array with a single defector in the middle of the
-    grid---or approximately the middle when side length is an even
+    grid---or approximately in the middle when side length is an even
     number."""
     m, arr = (s-1)//2, np.ones((s, s))
     arr[m, m] = 0
@@ -88,7 +88,7 @@ def strategy(arr_pay, arr_strat, method):
 
 
 #
-# Strategies for when defecting and cooperating yields the same payoff
+# Update rules for when defecting and cooperating yields the same payoff
 #
 
 def pick_lazy(arr_strat, b):

@@ -1,3 +1,7 @@
+#
+# TODO: Use a more efficient algorithm for DLA.
+#
+
 import numpy as np
 import matplotlib.pyplot as plt
 from update import UpdateAll

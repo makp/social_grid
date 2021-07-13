@@ -1,6 +1,19 @@
 #+TITLE: Snowdrift Game
 
+The left grid shows a random distribution of cooperators (blue) and defectors (red)---cooperators occupy cells with $80%$ probability. The right grid shows how the distribution of cooperators and defectors after they play the SD game 40 times:
 [[file:figures/sd-game.png][file:./figures/sd-game.png]]
+
+Cooperators form long filaments. This is expected because, in the SD game, it pays to have a neighbor that plays an alternative strategy.
+
+For each round of the SD game, each player interacts with other players in its Moore neighborhood. The total payoff for each player is the sum of the pair-wise interactions with each player, including itself. In the next round, players adopt the strategy that produced the highest payoff.
+
+In order to simplify the payoff calculation, the following payoff matrix was used
+
+|   | C | D |
+| C | 1 | 1 |
+| D | T | 0 |
+
+where $T$ (>1) is the temptation to defect. In the above simulation, $T = 2.6$.
 
 
 *** References

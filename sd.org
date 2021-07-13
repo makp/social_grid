@@ -1,0 +1,7 @@
+#+TITLE: Snowdrift Game
+
+[[file:figures/sd-game.png][file:~/Documents/mydocs/research-projects/public-repos/social-grid/figures/sd-game.png]]
+
+
+*** References
+- C. Hauert and M. Doebeli 2004 "[[https://doi.org/10.1038/nature02360][Spatial structure often inhibits the evolution of cooperation in the snowdrift game]]" /Nature/.

@@ -5,5 +5,15 @@ The following grid simulates how the cheater strategy (red) spreads from the cen
 [[./figures/pd-with-coop-bias.png]]
 The color yellow is used to represent cells that have recently turned into cheaters, and green to represent cells that have recently turned into cooperators.
 
+For each round of the PD game, each player interacts with other players in its Moore neighborhood. The total payoff for each player is the sum of the pair-wise interactions with each player, including itself. In the next round, players adopt the strategy that produced the highest payoff.
+
+In order to simplify the payoff calculation, the following payoff matrix was used
+
+|   | C | D |
+| C | 1 | 0 |
+| D | T | 0 |
+
+where 'T' (>1) is the temptation to defect.
+
 *** References
 - A. Lloyd 1995 "[[https://www.jstor.org/stable/24980839][Computing Bouts of the Prisoner's Dilemma]]" /Scientific American/

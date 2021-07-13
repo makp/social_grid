@@ -1,6 +1,10 @@
 #+TITLE: Aggregation
 
-Diffusion-limited aggregation:
+The following grid is a simulation of diffusion-limited aggregation (DLA):
 
-#+ATTR_ORG: :width 1
 [[./figures/dla_resized.png]]
+
+In DLA, particles undergo a random walk until they come in contact with a sticky particle. In the simulation above, a sticky particle was placed in the middle of the cellular automaton. Randomly moving particles stop moving upon contact and become sticky themselves.
+
+*** References
++ "[[https://en.wikipedia.org/wiki/Diffusion-limited_aggregation][Diffusion-limited aggregation]]" /Wikipedia/.

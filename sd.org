@@ -1,6 +1,6 @@
 #+TITLE: Snowdrift Game
 
-[[file:figures/sd-game.png][file:~/Documents/mydocs/research-projects/public-repos/social-grid/figures/sd-game.png]]
+[[file:figures/sd-game.png][file:./figures/sd-game.png]]
 
 
 *** References
